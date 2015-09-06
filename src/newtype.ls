@@ -1,0 +1,19 @@
+module.exports = function newtype name, def, union-cls
+	switch
+	| isPlainObject def =>
+		if _.all (.0.match(/^[A-Z]{1}$/)?), Object.keys(def)
+			throw Error "Unimplemented"
+		else if _.all (.0.match(/^[a-z]{1}$/)?), Object.keys(def)
+			record name, def, union-cls
+
+	| Array.isArray def =>
+		array name, def, union-cls
+
+	| otherwise =>
+		wrapper name, def, union-cls
+
+require! {
+	'./record' './wrapper'
+	'lodash.isPlainObject': isPlainObject
+	'ramda': _
+}

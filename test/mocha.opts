@@ -1,0 +1,5 @@
+--compilers ls:LiveScript
+--recursive
+--ui bdd
+--timeout 20000
+--require ./test/mochaHelpers.ls
