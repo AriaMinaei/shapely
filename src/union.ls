@@ -1,20 +1,11 @@
 module.exports = function union name, def
-	helpers.validate-type-name$ name
-
 	unless isPlainObject def
 		throw Error "Union's definition must be a plain object. #{typeof def} given."
 
-	eval "
-		var cls = function #{name}(){
-			return Union.apply(this, arguments);
-		};
-	"
-	cls.name = name
-	cls.__id = name
+	cls = createTypedClass name, Union
+
 	cls.__constructors = {}
 	cls.__constructorsById = {}
-	cls:: = Object.create Union::
-	cls <<< Union
 
 	if Object.keys(def).length is 0
 		throw Error "Union definition must have at least one constructor."
@@ -28,9 +19,10 @@ module.exports = function union name, def
 	cls
 
 require! {
-	'lodash.isPlainObject': isPlainObject
+	'lodash.isplainobject': isPlainObject
 	'ramda': _
 	'./helpers'
 	'./union/Union'
 	'./newtype'
+	'./createTypedClass'
 }

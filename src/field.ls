@@ -2,7 +2,7 @@ require! {
 	'./field/StringField'
 	'./field/NumberField'
 	'./field/AnyField'
-	'./field/UnionField'
+	'./field/TypeField'
 	'./field/VirtualUnionField'
 	'./field/ArrayOfTypeField'
 	'./helpers'
@@ -21,11 +21,11 @@ module.exports = function field name, def, wrapper-cls
 	| def is Number =>
 		new NumberField name, def, wrapper-cls
 
-	| def is 'any' =>
+	| def is \any =>
 		new AnyField name, def, wrapper-cls
 
-	| def.isUnionClass is true =>
-		new UnionField name, def, wrapper-cls
+	| def.isTypedClass is true =>
+		new TypeField name, def, wrapper-cls
 
 	| isPlainObject(def) and _.all (.0.match(/^[A-Z]{1}$/)?), Object.keys(def) =>
 		new VirtualUnionField name, def, wrapper-cls

@@ -1,5 +1,5 @@
 require! {
-	'../src/shapely': {union}
+	'../src/shapely': {union, newtype}
 	'lodash.isplainobject': isPlainObject
 }
 
@@ -76,6 +76,16 @@ describe \union, ->
 			(-> V.A a: U2.A({a: 'hi'})).should.not.throw()
 			(-> V.A a: U3.A({a: 'hi'})).should.not.throw()
 			(-> V.A a: 10).should.throw()
+
+		they 'should work for other types being wrappers', ->
+			R = newtype \R,
+				a: String
+
+			U = union \U,
+				A: R
+
+			(-> U.A 'hi').should.throw!
+			(-> U.A R a: 'hi').should.not.throw!
 
 		they 'should work for unions with types being wrappers', ->
 			U2 = union \U2,
@@ -162,3 +172,19 @@ describe \union, ->
 			s.get('d').get(0).get('a').should.equal 'a'
 			s.get('d').get(1).get('a').should.equal 'u3'
 			s.get('d').get(2).get('a').should.equal 'a'
+
+	describe \::deserialize, ->
+		they 'should work', ->
+			A = union \A, A: a: String
+			B = union \B, A: a: String
+
+			a = A.A a: 'hi'
+			(-> B.deserialize a.serialize!).should.throw!
+
+		they 'should work for wrappers', ->
+			A = newtype \A, String
+			B = newtype \B, String
+			a = A 'hello'
+			a.serialize!
+
+			A.deserialize(a.serialize!).get!.should.equal 'hello'

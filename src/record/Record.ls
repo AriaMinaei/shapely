@@ -4,7 +4,7 @@ require! {
 }
 
 module.exports = class Record extends Typed
-	(val) ->
+	_construct: (val) ->
 		val = imm val
 
 		container = imm({}).asMutable()
@@ -16,23 +16,16 @@ module.exports = class Record extends Typed
 
 	get: (key) -> @_container.get key
 
-	isA: (cls) ->
-		@constructor.union is cls or this instanceof cls
-
-	serialize: ->
-		val = {}
-
+	_serialize: (val) ->
 		for key, field of @constructor.__fields
 			val[key] = field.serialize @_container.get(key)
 
-		val.__constructorId = @constructor.__id
-
 		val
 
-	@deserialize = (val) ->
-		container = imm({}).asMutable()
+	@_deserialize = (val) ->
+		data = {}
 
 		for key, field of @__fields
-			container.set key, field.deserialize val[key]
+			data[key] = field.deserialize val[key]
 
-		new this container.asImmutable!
+		new this data

@@ -4,7 +4,7 @@ require! {
 }
 
 module.exports = class Wrapper extends Typed
-	(val) ->
+	_construct: (val) ->
 		@_container = imm @constructor.__field.create val
 
 	get: -> @_container
@@ -12,19 +12,9 @@ module.exports = class Wrapper extends Typed
 	isA: (cls) ->
 		@constructor.union is cls or this instanceof cls
 
-	serialize: ->
-		val = {}
-
-		val.field = @constructor.__fields.serialize @_container
-
-		val.__constructorId = @constructor.__id
-
+	_serialize: (val) ->
+		val.field = @constructor.__field.serialize @_container
 		val
 
-	@deserialize = (val) ->
-		container = imm({}).asMutable()
-
-		for key, field of @__fields
-			container.set key, field.deserialize val[key]
-
-		new this container
+	@_deserialize = (data) ->
+		new this data.field

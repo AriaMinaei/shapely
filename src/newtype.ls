@@ -1,5 +1,8 @@
 module.exports = function newtype name, def, union-cls
 	switch
+	| not def?
+		nullType name, def, union-cls
+
 	| isPlainObject def =>
 		if _.all (.0.match(/^[A-Z]{1}$/)?), Object.keys(def)
 			throw Error "Unimplemented"
@@ -13,7 +16,7 @@ module.exports = function newtype name, def, union-cls
 		wrapper name, def, union-cls
 
 require! {
-	'./record' './wrapper'
-	'lodash.isPlainObject': isPlainObject
+	'./record' './wrapper' './nullType'
+	'lodash.isplainobject': isPlainObject
 	'ramda': _
 }

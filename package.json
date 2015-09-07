@@ -4,7 +4,7 @@
   "description": "(work in progress)",
   "author": "Aria Minaei",
   "license": "MIT",
-  "main": "src/",
+  "main": "src/shapely.ls",
   "scripts": {
     "test": "mocha \"test/**/*.ls\"",
     "test.w": "mocha \"test/**/*.ls\" --watch"

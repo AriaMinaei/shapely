@@ -6,7 +6,7 @@ _it = it
 they = it
 
 describe \newtype, ->
-	they 'should work', ->
+	_it 'should work', ->
 		T = newtype \T,
 			a: String
 
