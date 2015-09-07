@@ -9,9 +9,6 @@ module.exports = class Wrapper extends Typed
 
 	get: -> @_container
 
-	isA: (cls) ->
-		@constructor.union is cls or this instanceof cls
-
 	_serialize: (val) ->
 		val.field = @constructor.__field.serialize @_container
 		val

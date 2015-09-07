@@ -14,7 +14,15 @@ module.exports = class Union extends Typed
 		ctor = this.__constructorsById[constructorId]
 
 		unless ctor?
-			throw Error "Invalid constructorId '#{constructorId}' for union '#{this.name}'"
+			throw Error "Invalid constructorId '#{constructorId}' for union '#{this.__name}'"
 
 		ctor.deserialize data
 
+	@cata = (v, pattern) ->
+		unless v.isA this
+			throw Error "Value is not a constructor of this union"
+
+		if pattern[v.constructor.__name]?
+			that v
+		else
+			throw Error "Pattern is not exhaustive. No case for `#{v.constructor.__name}`"

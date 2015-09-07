@@ -30,4 +30,4 @@ module.exports = class Typed
 		val
 
 	cata: (d) ->
-		d[@constructor.name](@get!)
+		d[@constructor.__name](@get!)

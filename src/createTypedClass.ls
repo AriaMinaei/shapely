@@ -22,10 +22,10 @@ module.exports = function createTypedClass name, superClass, union-cls
 		else
 			cls[key] = prop
 
-	cls.name = name
+	cls.__name = name
 	cls.union = union-cls
 	cls.__id = if union-cls?
-		union-cls.name + '.' + name
+		union-cls.__name + '.' + name
 	else
 		name
 
