@@ -15,7 +15,12 @@ module.exports = function createTypedClass name, superClass, union-cls
 		}
 	"
 	cls:: = Object.create superClass::
-	cls <<< superClass
+	# cls <<< superClass
+	for own key, prop of superClass
+		if prop? and typeof prop.bind is \function
+			cls[key] = prop.bind cls
+		else
+			cls[key] = prop
 
 	cls.name = name
 	cls.union = union-cls

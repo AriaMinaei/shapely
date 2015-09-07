@@ -14,7 +14,11 @@ module.exports = class Record extends Typed
 
 		@_container = container.asImmutable()
 
-	get: (key) -> @_container.get key
+	get: (key) ->
+		unless key?
+			@_container
+		else
+			@_container.get key
 
 	_serialize: (val) ->
 		for key, field of @constructor.__fields

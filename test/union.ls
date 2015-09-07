@@ -145,6 +145,7 @@ describe \union, ->
 					b: Number
 					c: \any
 
+
 			U3 = union \U3,
 				A: a: String
 

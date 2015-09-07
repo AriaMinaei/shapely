@@ -17,3 +17,4 @@ module.exports = class Union extends Typed
 			throw Error "Invalid constructorId '#{constructorId}' for union '#{this.name}'"
 
 		ctor.deserialize data
+

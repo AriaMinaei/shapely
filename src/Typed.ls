@@ -28,3 +28,6 @@ module.exports = class Typed
 		val.__constructorId = @constructor.__id
 		@_serialize val
 		val
+
+	cata: (d) ->
+		d[@constructor.name](@get!)
