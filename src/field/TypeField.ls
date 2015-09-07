@@ -4,7 +4,7 @@ require! {
 
 module.exports = class TypeField extends Field
 	_isValid: (val) ->
-		unless typeof val.isA is \function
+		unless typeof val?.isA is \function
 			return "Expected a typed value. `#{typeof val}` given."
 
 		unless val.isA @def
