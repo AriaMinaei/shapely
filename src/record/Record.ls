@@ -5,6 +5,9 @@ require! {
 
 module.exports = class Record extends Typed
 	_construct: (val) ->
+		unless val? and typeof val is \object
+			throw Error "Cannot construct a record `#{@constructor.__id}` from a non-object '#{val}'"
+
 		val = imm val
 
 		container = imm({}).asMutable()
