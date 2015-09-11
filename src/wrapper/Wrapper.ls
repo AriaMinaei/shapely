@@ -14,4 +14,4 @@ module.exports = class Wrapper extends Typed
 		val
 
 	@_deserialize = (data) ->
-		new this data.field
+		new this @__field.deserialize data.field
