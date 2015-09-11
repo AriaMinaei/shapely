@@ -1,6 +1,8 @@
 require! {
 	'./field/StringField'
 	'./field/NumberField'
+	'./field/BooleanField'
+	'./field/ObjectField'
 	'./field/AnyField'
 	'./field/TypeField'
 	'./field/VirtualUnionField'
@@ -20,6 +22,12 @@ module.exports = function field name, def, wrapper-cls
 
 	| def is Number =>
 		new NumberField name, def, wrapper-cls
+
+	| def is Boolean =>
+		new BooleanField name, def, wrapper-cls
+
+	| def is Object =>
+		new ObjectField name, def, wrapper-cls
 
 	| def is \any =>
 		new AnyField name, def, wrapper-cls
