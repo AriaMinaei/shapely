@@ -1,5 +1,6 @@
 require! {
 	'../Typed': Typed
+	'lodash.isplainobject': isPlainObject
 }
 
 module.exports = class Union extends Typed
@@ -9,10 +10,11 @@ module.exports = class Union extends Typed
 	@isUnionClass = true
 
 	@deserialize = (data) ->
+		unless isPlainObject data
+			throw Error "Cannot deserialize a non-plain-object. `#{typeof data}` given."
+
 		constructorId = data.__constructorId
-
 		ctor = this.__constructorsById[constructorId]
-
 		unless ctor?
 			throw Error "Invalid constructorId '#{constructorId}' for union '#{this.__name}'"
 
