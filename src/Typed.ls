@@ -10,8 +10,11 @@ module.exports = class Typed
 	isA: (cls) ->
 		@constructor.union is cls or this instanceof cls
 
+	@isValueAnInstance = (v) ->
+		(v? and v?isA?(this)) is yes
+
 	@ensureInstance = (v) ->
-		unless v.isA?(this)
+		unless @isValueAnInstance v
 			throw Error "Expected a typed class, instance of `#{this.__id}`"
 
 		v
