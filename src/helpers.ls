@@ -9,5 +9,5 @@ module.exports.validate-field-name$ = (name) !->
 	unless typeof name is \string
 		throw Error "A field needs a string name. `#{typeof name}` given."
 
-	unless name.match /^[a-z\_]{1}[a-zA-Z0-9\_]*$/
+	unless name.match /^[a-z]{1}[a-zA-Z0-9\_]*$/
 		throw Error "A field's name must be a string starting with a small letter. '#{name}' given."
