@@ -21,7 +21,7 @@ module.exports = class Union extends Typed
 		ctor.deserialize data
 
 	@cata = (v, pattern) ->
-		unless v.isA this
+		unless v?.isA? this
 			throw Error "Value is not a constructor of this union"
 
 		if pattern[v.constructor.__name]?
