@@ -1,31 +1,29 @@
 require! {
 	'../Typed': Typed
-	'immutable': {fromJS: imm}
+	'lodash.isplainobject': isPlainObject
 }
 
 module.exports = class Record extends Typed
 	_construct: (val) ->
-		unless val? and typeof val is \object
+		unless isPlainObject val
 			throw Error "Cannot construct a record `#{@constructor.__id}` from a non-object '#{val}'"
 
-		val = imm val
-
-		container = imm({}).asMutable()
+		container = {}
 
 		for key, field of @constructor.__fields
-			container.set key, field.create val.get(key)
+			container[key] = field.create val[key]
 
-		@_container = container.asImmutable()
+		@_container = container
 
 	get: (key) ->
 		unless key?
 			@_container
 		else
-			@_container.get key
+			@_container[key]
 
 	_serialize: (val) ->
 		for key, field of @constructor.__fields
-			val[key] = field.serialize @_container.get(key)
+			val[key] = field.serialize @_container[key]
 
 		val
 

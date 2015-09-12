@@ -32,6 +32,8 @@ module.exports = function field name, def, wrapper-cls
 	| def is \any =>
 		new AnyField name, def, wrapper-cls
 
+	# | def instanceof
+
 	| def.isTypedClass is true =>
 		new TypeField name, def, wrapper-cls
 
@@ -39,7 +41,12 @@ module.exports = function field name, def, wrapper-cls
 		new VirtualUnionField name, def, wrapper-cls
 
 	| _.isArrayLike def
-		new ArrayOfTypeField name, def, wrapper-cls
+		switch
+		| def.length is 1 =>
+			new ArrayOfTypeField name, def, wrapper-cls
+
+		| otherwise =>
+			throw Error "Invalid "
 
 	| otherwise =>
 		throw Error "Unkown field type `#{def}`"

@@ -1,46 +1,41 @@
 require! {
 	'./Field': Field
 	'ramda': _
-	'immutable': {List}
 }
 
 module.exports = class ArrayOfTypeField extends Field
 	->
 		super ...arguments
 
-		@_acceptableClasses = @def
-		@_acceptableClassIDs = @_acceptableClasses |> _.map (.__id)
+		@_acceptableClass = @def.0
+		@_acceptableClassID = @_acceptableClass.__id
 
 	_isValid: (lst) ->
-		if lst.toArray?
-			lst = lst.toArray!
-
 		unless _.isArrayLike lst
 			return "Expected a an array or list. `#{typeof lst}` given."
 
-		for val in lst
-			unless typeof val.isA is \function
-				return "Expected typed values in the list. At least one of them was a(n) `#{typeof val}`."
+		for val, i in lst
+			unless val? and typeof val.isA is \function
+				return "Expected typed values in the list. Item[#i] is a(n) `#{typeof val}`."
 
-			unless _.any val~isA, @_acceptableClasses
-				return "Expected the typed values to be one of [#{@_acceptableClassIDs.join(', ')}]. But at least one of them is from `#{val.union?.__id}`"
+			unless val.isA @_acceptableClass
+				return "Expected the typed values to be one an `#@_acceptableClassID`. But item[#i] is from `#{val.union?.__id}`"
 
 		return
 
 	serialize: (val) ->
-		val.map (.serialize!) |> (.toArray!)
+		val.map (.serialize!)
 
 	deserialize: (val) ->
 		unless _.isArrayLike val
 			throw Error "Only arrays can be deserialized. `#{typeof val}` given."
 
 		items = []
-		:outer for v in val
-			for cls in @_acceptableClasses
-				try
-					items.push cls.deserialize v
-					continue outer
+		for v, i in val
+			try
+				items.push @_acceptableClass.deserialize v
+				continue
 
-			throw Error "Cannot deserialize at least one of the values. It doesn't belong to [#{@_acceptableClassIDs.join(', ')}]."
+			throw Error "Cannot deserialize item[#i]. It doesn't belong to `#@_acceptableClassID`."
 
 		items

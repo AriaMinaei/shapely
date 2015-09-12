@@ -1,11 +1,10 @@
 require! {
 	'../Typed': Typed
-	'immutable': {fromJS: imm}
 }
 
 module.exports = class Wrapper extends Typed
 	_construct: (val) ->
-		@_container = imm @constructor.__field.create val
+		@_container = @constructor.__field.create val
 
 	get: -> @_container
 

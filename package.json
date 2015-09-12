@@ -21,7 +21,6 @@
     "sinon-chai": "^2.6.0"
   },
   "dependencies": {
-    "immutable": "^3.7.5",
     "lodash.isplainobject": "^3.2.0",
     "ramda": "^0.17.1"
   }

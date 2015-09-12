@@ -1,14 +1,10 @@
-require! {
-	'immutable': {fromJS: imm}
-}
-
 module.exports = class Field
 	(@name, @def, @wrapper-cls) ->
 		@__id = @wrapper-cls.__id + '.' + @name
 
 	create: (val) ->
 		@validate val
-		imm val
+		val
 
 	_isValid: -> true
 
