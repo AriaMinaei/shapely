@@ -15,7 +15,7 @@ module.exports = function record name, def, union-cls
 
 	cls.__fields = {}
 	for let key, val of def
-		cls.__fields[key] = field key, val, cls
+		cls.__fields[key] = field key, val, cls.__id
 
 	keys = Object.keys cls.__fields
 

@@ -1,6 +1,6 @@
 module.exports = class Field
-	(@name, @def, @wrapper-cls) ->
-		@__id = @wrapper-cls.__id + '.' + @name
+	(@id, @def) ->
+		@__id = @id
 
 	create: (val) ->
 		@validate val

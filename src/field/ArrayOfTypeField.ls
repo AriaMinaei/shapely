@@ -1,30 +1,24 @@
-require! {
-	'./Field': Field
-	'ramda': _
-}
+require! './Field'
 
 module.exports = class ArrayOfTypeField extends Field
 	->
 		super ...arguments
 
-		@_acceptableClass = @def.0
-		@_acceptableClassID = @_acceptableClass.__id
+		@_field = field \value, @def.0, @id
 
 	_isValid: (lst) ->
 		unless _.isArrayLike lst
 			return "Expected a an array or list. `#{typeof lst}` given."
 
 		for val, i in lst
-			unless val? and typeof val.isA is \function
-				return "Expected typed values in the list. Item[#i] is a(n) `#{typeof val}`."
-
-			unless val.isA @_acceptableClass
-				return "Expected the typed values to be one an `#@_acceptableClassID`. But item[#i] is from `#{val.union?.__id}`"
+			if @_field._isValid(val)?
+				return that + " (In itemm['#i'])"
 
 		return
 
 	serialize: (val) ->
-		val.map (.serialize!)
+		val.map (v) ~>
+			@_field.serialize v
 
 	deserialize: (val) ->
 		unless _.isArrayLike val
@@ -33,9 +27,15 @@ module.exports = class ArrayOfTypeField extends Field
 		items = []
 		for v, i in val
 			try
-				items.push @_acceptableClass.deserialize v
+				items.push @_field.deserialize v
 				continue
+			catch e
 
-			throw Error "Cannot deserialize item[#i]. It doesn't belong to `#@_acceptableClassID`."
+			throw Error "Cannot deserialize item[#i] in @id: #{e.message}"
 
 		items
+
+require! {
+	'ramda': _
+	'../field'
+}
