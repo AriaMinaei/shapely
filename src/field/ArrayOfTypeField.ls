@@ -11,8 +11,8 @@ module.exports = class ArrayOfTypeField extends Field
 			return "Expected a an array or list. `#{typeof lst}` given."
 
 		for val, i in lst
-			if @_field._isValid(val)?
-				return that + " (In itemm['#i'])"
+			if err = @_field._isValid(val) and typeof err is \string
+				return err + " (In item[#i])"
 
 		return
 
@@ -31,7 +31,7 @@ module.exports = class ArrayOfTypeField extends Field
 				continue
 			catch e
 
-			throw Error "Cannot deserialize item[#i] in @id: #{e.message}"
+			throw Error "Cannot deserialize item[#i] in `#{@id}`: #{e.message}"
 
 		items
 

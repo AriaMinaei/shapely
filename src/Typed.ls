@@ -33,4 +33,8 @@ module.exports = class Typed
 		val
 
 	cata: (d) ->
-		d[@constructor.__name](@get!)
+		fn = d[@constructor.__name]
+		unless fn?
+			throw Error "Cata doesn't provide a case for `#{@constructor.__name}`"
+
+		fn @get!

@@ -14,7 +14,7 @@ module.exports = class MapOfTypeField extends Field
 			return "Expected a plain object. `#{typeof obj}` given."
 
 		for key, val of obj
-			if @_field._isValid(val)?
+			if err = @_field._isValid(val) and typeof err is \string
 				return that + " (In itemm['#key'])"
 
 		return
@@ -36,7 +36,7 @@ module.exports = class MapOfTypeField extends Field
 				continue
 			catch e
 
-			throw Error "Cannot deserialize item['#k'] in '@id: #{e.message}"
+			throw Error "Cannot deserialize item['#k'] in `#{@id}`: #{e.message}"
 
 		items
 
