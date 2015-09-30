@@ -27,11 +27,26 @@ describe 'union', ->
 			U = union \U,
 				A:
 					a: String
-			# console.log U
+
 			U.A a: 'hello'
 
 			(-> U.A a: 'hello').should.not.throw()
 			(-> U.A a: 10).should.throw()
+
+		o 'should consider default values', ->
+			U = union \U,
+				A:
+					a: [\only, String, "something"]
+
+			U.A a: 'hello'
+
+			(-> U.A a: 'hello').should.not.throw()
+			(-> U.A a: 10).should.throw()
+			(-> U.A a: null).should.not.throw()
+
+		o 'should not allow wrong default values', ->
+			(-> newtype \A, a: [\only, String, 10]).should.throw!
+			(-> newtype \A, a: [\only, String, "10"]).should.not.throw!
 
 		o 'should work for arrays of typed objects', ->
 			U2 = union \U2,
@@ -42,7 +57,7 @@ describe 'union', ->
 
 			U = union \U,
 				A:
-					a: [U2]
+					a: [\arrayOf, U2]
 
 			(-> U.A a: [U2.A a: 'hello']).should.not.throw()
 			(-> U.A a: 10).should.throw()
@@ -61,7 +76,7 @@ describe 'union', ->
 			(-> U.A a: U2.A({a: 'hi'})).should.not.throw()
 			(-> U.A a: 10).should.throw()
 
-		o 'should work for other unions created on the fly', ->
+		o.skip 'should work for other unions created on the fly', ->
 			U2 = union \U2,
 				A:
 					a: String
@@ -130,10 +145,11 @@ describe 'union', ->
 			(-> B a: {one: 10 }).should.throw!
 
 		o 'should work for arrays', ->
+			A = newtype \A, a: [\arrayOf, String]
+
 			U = union \U, A: a: String
 
-			A = newtype \A, a: [String]
-			B = newtype \B, a: [U]
+			B = newtype \B, a: [\arrayOf, U]
 
 			(-> A a: [\hi ]).should.not.throw!
 			(-> A a: [10]).should.throw!
@@ -186,6 +202,7 @@ describe 'union', ->
 					c: \any
 
 
+
 			U3 = union \U3,
 				A: a: String
 
@@ -193,17 +210,17 @@ describe 'union', ->
 				A:
 					a: String
 					b: U2
-					c: {U2, U3}
-					d: [U3]
-					e: mapOf(U3)
+					# c: {U2, U3}
+					d: [\arrayOf, U3]
+					e: [\mapOf, U3]
 					# f: mapOf String
+			# return
 
 			u3 = U3.A a: 'u3'
 			u2 = U2.A a: 'a', b: 10, c: 's'
 			u = U.A do
 				a: 'hi'
 				b: u2
-				c: u3
 				d: [u3]
 				e:
 					one: U3.A a: 'hi'
@@ -214,7 +231,6 @@ describe 'union', ->
 			s.get('b').get('a').should.equal 'a'
 			s.get('b').get('b').should.equal 10
 			s.get('b').get('c').should.equal 's'
-			s.get('c').get('a').should.equal 'u3'
 			s.get('d')[0].get('a').should.equal 'u3'
 			s.get('e').one.get('a').should.equal \hi
 			s.get('e').two.get('a').should.equal \bye

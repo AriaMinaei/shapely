@@ -1,10 +1,14 @@
 module.exports = class Field
-	(@id, @def) ->
+	(@id, @def, @defaultValue, @unionCls) ->
 		@__id = @id
 
+		if @defaultValue?
+			@validate @defaultValue
+
 	create: (val) ->
-		@validate val
-		val
+		v = val ? @defaultValue
+		@validate v
+		v
 
 	_isValid: -> true
 

@@ -4,7 +4,7 @@ module.exports = class ArrayOfTypeField extends Field
 	->
 		super ...arguments
 
-		@_field = field \value, @def.0, @id
+		@_field = field \value, @def, @id, @unionCls
 
 	_isValid: (lst) ->
 		unless _.isArrayLike lst

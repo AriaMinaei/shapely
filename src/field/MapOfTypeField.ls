@@ -4,7 +4,7 @@ module.exports = class MapOfTypeField extends Field
 	->
 		super ...arguments
 
-		@_field = field \value, @def.1, @id
+		@_field = field \value, @def, @id, @unionCls
 
 		# @_acceptableClass = @def.1
 		# @_acceptableClassID = @_acceptableClass.__id
