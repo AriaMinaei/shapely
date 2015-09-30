@@ -1,6 +1,9 @@
-module.exports = function field name, def, wrapper-id
+module.exports = function field name, def, wrapper-id, optional-union-cls
 	helpers.validate-field-name$ name
 	id = wrapper-id + \. + name
+
+	is-part-of-union = optional-union-cls?
+	union-cls-id = optional-union-cls?.__id
 
 	switch
 	| def is String =>
@@ -18,7 +21,8 @@ module.exports = function field name, def, wrapper-id
 	| def is \any =>
 		new AnyField id, def
 
-	# | def instanceof
+	| is-part-of-union and def is union-cls-id =>
+		new TypeField id, optional-union-cls
 
 	| def.isTypedClass is true =>
 		new TypeField id, def

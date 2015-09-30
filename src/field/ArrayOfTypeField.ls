@@ -11,7 +11,8 @@ module.exports = class ArrayOfTypeField extends Field
 			return "Expected a an array or list. `#{typeof lst}` given."
 
 		for val, i in lst
-			if err = @_field._isValid(val) and typeof err is \string
+			err = @_field._isValid(val)
+			if typeof err is \string
 				return err + " (In item[#i])"
 
 		return

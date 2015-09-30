@@ -8,7 +8,7 @@ module.exports = class TypeField extends Field
 			return "Expected a value from `#{@def.__id}`. `#{typeof val}` given."
 
 		unless val.isA @def
-			return "Expected the value to be from type `#{@def.__id}`. But it's from `#{val.__id}`"
+			return "Expected the value to be from type `#{@def.__id}`. But it's from `#{val.constructor.__id}`"
 
 	serialize: (val) ->
 		val.serialize!

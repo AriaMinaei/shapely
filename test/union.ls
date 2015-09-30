@@ -104,6 +104,20 @@ describe 'union', ->
 			(-> U.B U2.A a: 'hi').should.not.throw!
 			(-> U.B 'hello').should.throw!
 
+		o 'should work for recursive types', ->
+			U = union \U,
+				A:
+					a: \U
+				B:
+					a: String
+
+			U2 = union \U,
+				A: a: String
+
+			(-> U.A a: U.B a: 'hi').should.not.throw!
+			(-> U.A a: U2.A a: 'hi').should.throw!
+
+
 		o 'should work for maps', ->
 			U = union \U, A: a: String
 

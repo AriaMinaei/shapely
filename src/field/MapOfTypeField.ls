@@ -14,7 +14,8 @@ module.exports = class MapOfTypeField extends Field
 			return "Expected a plain object. `#{typeof obj}` given."
 
 		for key, val of obj
-			if err = @_field._isValid(val) and typeof err is \string
+			err = @_field._isValid(val)
+			if typeof err is \string
 				return that + " (In itemm['#key'])"
 
 		return
