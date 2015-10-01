@@ -67,11 +67,17 @@ describe 'union', ->
 				A:
 					a: String
 
-			U = union \U,
-				A:
-					a: U2
+			U = union \U, A: a: U2
 
 			# U.A a: 10
+
+			(-> U.A a: U2.A({a: 'hi'})).should.not.throw()
+			(-> U.A a: 10).should.throw()
+
+		o 'should work for deferred unions', ->
+			U = union \U, A: a: -> U2
+
+			U2 = union \U2, A: a: String
 
 			(-> U.A a: U2.A({a: 'hi'})).should.not.throw()
 			(-> U.A a: 10).should.throw()

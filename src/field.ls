@@ -52,11 +52,8 @@ function make-field-form-array name, def, wrapper-id, optional-union-cls
 	| is-part-of-union and type is union-cls-id =>
 		new TypeField id, optional-union-cls, default-value
 
-	| type?.isTypedClass is true =>
+	| type?.isTypedClass is true or typeof type is \function =>
 		new TypeField id, type, default-value
-
-	# | isPlainObject(type) and _.all (.0.match(/^[A-Z]{1}$/)?), Object.keys(type) =>
-	# 	new VirtualUnionField id, type, default-value
 
 	| _.isArrayLike type =>
 		switch type.0

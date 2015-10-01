@@ -3,6 +3,14 @@ require! {
 }
 
 module.exports = class TypeField extends Field
+	->
+		super ...arguments
+
+		unless @def.__id?
+			fn = @def
+			getDef = -> fn!
+			Object.defineProperty this, \def, get: getDef
+
 	_isValid: (val) ->
 		unless typeof val?.isA is \function
 			return "Expected a value from `#{@def.__id}`. `#{typeof val}` given."
