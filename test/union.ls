@@ -33,6 +33,15 @@ describe 'union', ->
 			(-> U.A a: 'hello').should.not.throw()
 			(-> U.A a: 10).should.throw()
 
+		o.only 'should work for nulls', ->
+			A = newtype \A,
+				a: \null
+
+			(-> A {}).should.not.throw!
+			(-> A {a: null}).should.not.throw!
+			(-> A {a: void}).should.not.throw!
+			(-> A {a: 10}).should.throw!
+
 		o 'should work for eithers', ->
 			A = newtype \A,
 				a: [\either, [String, Number]]

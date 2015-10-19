@@ -14,9 +14,6 @@ module.exports = function field name, def, wrapper-id, optional-union-cls
 		| otherwise =>
 			throw Error "Array cannot be bigger than 3 elements. #{def.length} given."
 
-	| not def? =>
-		throw Error "Field definition cannot be null."
-
 	| otherwise =>
 		make-field-form-array name, [\only, def, null], wrapper-id, optional-union-cls
 
@@ -53,6 +50,9 @@ function make-field-form-array name, def, wrapper-id, optional-union-cls
 		| type is \any =>
 			new AnyField id, type, default-value
 
+		| type is \null =>
+			new NullField id, type, default-value
+
 		| is-part-of-union and type is union-cls-id =>
 			new TypeField id, optional-union-cls, default-value
 
@@ -84,6 +84,7 @@ require! {
 	'./field/ArrayOfTypeField'
 	'./field/MapOfTypeField'
 	'./field/EitherField'
+	'./field/NullField'
 	'./helpers'
 	'lodash.isplainobject': isPlainObject
 	'ramda': _
