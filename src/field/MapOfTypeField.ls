@@ -1,4 +1,6 @@
 require! './Field'
+require! 'ramda': {type}
+
 
 module.exports = class MapOfTypeField extends Field
 	->
@@ -9,12 +11,12 @@ module.exports = class MapOfTypeField extends Field
 		# @_acceptableClass = @def.1
 		# @_acceptableClassID = @_acceptableClass.__id
 
-	_isValid: (obj) ->
+	_getValidationError: (obj) ->
 		unless isPlainObject obj
-			return "Expected a plain object. `#{typeof obj}` given."
+			return "Expected a plain object. `#{type obj}` given."
 
 		for key, val of obj
-			err = @_field._isValid(val)
+			err = @_field._getValidationError(val)
 			if typeof err is \string
 				return that + " (In itemm['#key'])"
 

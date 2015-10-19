@@ -28,47 +28,50 @@ function make-field-form-array name, def, wrapper-id, optional-union-cls
 	union-cls-id = optional-union-cls?.__id
 
 	[choiceSystem, type, default-value] = def
-	# console.log def
 
-	unless choiceSystem is \only
-		throw Error "Currently the only known choice system is 'only'. '#choiceSystem' given."
+	unless choiceSystem in [\only, \either ]
+		throw Error "Currently the only known choice system are ['only', 'either']. '#choiceSystem' given."
 
-	switch
-	| type is String =>
-		new StringField id, type, default-value
+	switch choiceSystem
+	| \either =>
+		new EitherField id, type, default-value, optional-union-cls
 
-	| type is Number =>
-		new NumberField id, type, default-value
+	| \only =>
+		switch
+		| type is String =>
+			new StringField id, type, default-value
 
-	| type is Boolean =>
-		new BooleanField id, type, default-value
+		| type is Number =>
+			new NumberField id, type, default-value
 
-	| type is Object =>
-		new ObjectField id, type, default-value
+		| type is Boolean =>
+			new BooleanField id, type, default-value
 
-	| type is \any =>
-		new AnyField id, type, default-value
+		| type is Object =>
+			new ObjectField id, type, default-value
 
-	| is-part-of-union and type is union-cls-id =>
-		new TypeField id, optional-union-cls, default-value
+		| type is \any =>
+			new AnyField id, type, default-value
 
-	| type?.isTypedClass is true or typeof type is \function =>
-		new TypeField id, type, default-value
+		| is-part-of-union and type is union-cls-id =>
+			new TypeField id, optional-union-cls, default-value
 
-	| _.isArrayLike type =>
-		switch type.0
-		| \mapOf =>
-			new MapOfTypeField id, type.1, default-value, optional-union-cls
+		| type?.isTypedClass is true or typeof type is \function =>
+			new TypeField id, type, default-value
 
-		| \arrayOf =>
-			new ArrayOfTypeField id, type.1, default-value, optional-union-cls
+		| _.isArrayLike type =>
+			switch type.0
+			| \mapOf =>
+				new MapOfTypeField id, type.1, default-value, optional-union-cls
+
+			| \arrayOf =>
+				new ArrayOfTypeField id, type.1, default-value, optional-union-cls
+
+			| otherwise =>
+				throw Error "Invalid type modifier '#that'"
 
 		| otherwise =>
-			throw Error "Invalid type modifier '#that'"
-
-	| otherwise =>
-		throw Error "Unkown field type `#{type}`"
-
+			throw Error "Unkown field type `#{type}`"
 
 require! {
 	'./field/StringField'
@@ -80,6 +83,7 @@ require! {
 	'./field/VirtualUnionField'
 	'./field/ArrayOfTypeField'
 	'./field/MapOfTypeField'
+	'./field/EitherField'
 	'./helpers'
 	'lodash.isplainobject': isPlainObject
 	'ramda': _

@@ -14,7 +14,7 @@ module.exports = class VirtualUnionField extends Field
 		@_acceptableClassIDs = @_acceptableClasses
 		|> _.map (.__id)
 
-	_isValid: (val) ->
+	_getValidationError: (val) ->
 		unless typeof val.isA is \function
 			return "Expected a typed value. `#{typeof val}` given."
 

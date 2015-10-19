@@ -1,8 +1,13 @@
 require! {
 	'./Field': Field
+	'ramda': {type}
 }
 
 module.exports = class NumberField extends Field
-	_isValid: (val) ->
+	_getValidationError: (val) ->
 		unless typeof val is \number
-			"Number expected. `#{typeof val}` given."
+			"Number expected. `#{type val}` given."
+
+	deserialize: (val) ->
+		@validate val
+		val

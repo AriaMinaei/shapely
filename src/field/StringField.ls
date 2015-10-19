@@ -1,8 +1,13 @@
 require! {
 	'./Field': Field
+	'ramda': {type}
 }
 
 module.exports = class StringField extends Field
-	_isValid: (val) ->
+	_getValidationError: (val) ->
 		unless typeof val is \string
-			"String expected. `#{typeof val}` given."
+			"String expected. `#{type val}` given."
+
+	deserialize: (val) ->
+		@validate val
+		val

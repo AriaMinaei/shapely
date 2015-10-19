@@ -7,8 +7,9 @@ require! {
 }
 
 module.exports = function wrapper name, def, union-cls
+	# debugger
 	cls = createTypedClass name, Wrapper, union-cls
 
-	cls.__field = field 'value', def, cls.__id
+	cls.__field = field 'value', def, cls.__id, union-cls
 
 	cls

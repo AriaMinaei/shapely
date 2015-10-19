@@ -9,8 +9,9 @@ module.exports = function newtype name, def, union-cls
 		else if _.all (.0.match(/^[a-z]{1}$/)?), Object.keys(def)
 			record name, def, union-cls
 
-	| Array.isArray def =>
-		array name, def, union-cls
+	# | Array.isArray def =>
+	# 	console.log name, def, union-cls
+	# 	array name, def, union-cls
 
 	| otherwise =>
 		wrapper name, def, union-cls

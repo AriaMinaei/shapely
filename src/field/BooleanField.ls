@@ -1,8 +1,13 @@
 require! {
 	'./Field': Field
+	'ramda': {type}
 }
 
 module.exports = class BooleanField extends Field
-	_isValid: (val) ->
+	_getValidationError: (val) ->
 		unless typeof val is \boolean
-			"Boolean expected. `#{typeof val}` given."
+			"Boolean expected. `#{type val}` given."
+
+	deserialize: (val) ->
+		@validate val
+		val

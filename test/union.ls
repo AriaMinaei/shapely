@@ -33,6 +33,15 @@ describe 'union', ->
 			(-> U.A a: 'hello').should.not.throw()
 			(-> U.A a: 10).should.throw()
 
+		o 'should work for eithers', ->
+			A = newtype \A,
+				a: [\either, [String, Number]]
+
+			(-> A a: 'hi').should.not.throw!
+			(-> A a: 10).should.not.throw!
+			(-> A a: true).should.throw!
+
+
 		o 'should consider default values', ->
 			U = union \U,
 				A:
@@ -206,8 +215,7 @@ describe 'union', ->
 					a: String
 					b: Number
 					c: \any
-
-
+					d: [\either, [String, Number]]
 
 			U3 = union \U3,
 				A: a: String
@@ -223,7 +231,7 @@ describe 'union', ->
 			# return
 
 			u3 = U3.A a: 'u3'
-			u2 = U2.A a: 'a', b: 10, c: 's'
+			u2 = U2.A a: 'a', b: 10, c: 's', d: \10
 			u = U.A do
 				a: 'hi'
 				b: u2
@@ -237,6 +245,7 @@ describe 'union', ->
 			s.get('b').get('a').should.equal 'a'
 			s.get('b').get('b').should.equal 10
 			s.get('b').get('c').should.equal 's'
+			s.get('b').get('d').should.equal \10
 			s.get('d')[0].get('a').should.equal 'u3'
 			s.get('e').one.get('a').should.equal \hi
 			s.get('e').two.get('a').should.equal \bye

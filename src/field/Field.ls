@@ -10,10 +10,13 @@ module.exports = class Field
 		@validate v
 		v
 
-	_isValid: -> true
+	_getValidationError: -> true
+
+	isValid: ->
+		typeof @_getValidationError(...arguments) isnt \string
 
 	validate: (val) ->
-		err = @_isValid val
+		err = @_getValidationError val
 
 		if typeof err is 'string'
 			throw Error "Error validating `#{@__id}`: #{err}"
