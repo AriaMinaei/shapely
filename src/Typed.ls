@@ -37,4 +37,4 @@ module.exports = class Typed
 		unless fn?
 			throw Error "Cata doesn't provide a case for `#{@constructor.__name}`"
 
-		fn @get!
+		fn this

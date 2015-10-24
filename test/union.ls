@@ -33,7 +33,7 @@ describe 'union', ->
 			(-> U.A a: 'hello').should.not.throw()
 			(-> U.A a: 10).should.throw()
 
-		o.only 'should work for nulls', ->
+		o 'should work for nulls', ->
 			A = newtype \A,
 				a: \null
 
