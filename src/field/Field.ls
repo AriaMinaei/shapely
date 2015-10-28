@@ -2,7 +2,14 @@ module.exports = class Field
 	(@id, @def, @defaultValue, @unionCls) ->
 		@__id = @id
 
-		if @defaultValue?
+		if typeof @defaultValue is \function
+			defaultValueFn = @defaultValue
+			getDef = -> defaultValueFn!
+			Object.defineProperty this, \defaultValue, get: getDef
+			setTimeout ~>
+				@validate @defaultValue
+			, 0
+		else if @defaultValue?
 			@validate @defaultValue
 
 	create: (val) ->
