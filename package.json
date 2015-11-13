@@ -1,27 +1,32 @@
 {
   "name": "shapely",
-  "version": "0.1.0-dev.2",
+  "version": "0.2.0-dev.1",
   "description": "(work in progress)",
   "author": "Aria Minaei",
   "license": "MIT",
-  "main": "src/shapely.ls",
+  "main": "src/shapely.js",
   "scripts": {
     "test": "mocha \"test/**/*.ls\"",
-    "test.w": "mocha \"test/**/*.ls\" --watch"
+    "test.w": "mocha \"test/**/*.ls\" --watch",
+    "dev": "webpack --watch --colors --progress",
+    "prepublish": "webpack --colors --progress"
   },
   "devDependencies": {
+    "babel-core": "^6.1.4",
+    "babel-loader": "^6.1.0",
+    "babel-preset-es2015": "^6.1.4",
     "chai": "^1.10.0",
     "chai-changes": "^1.3.4",
     "chai-fuzzy": "^1.5.0",
-    "livescript": "^1.4.0",
     "mocha": "^2.0.1",
     "mocha-pretty-spec-reporter": "0.1.0-beta.2",
     "pretty-error": "^1.2.0",
     "sinon": "^1.12.2",
-    "sinon-chai": "^2.6.0"
+    "sinon-chai": "^2.6.0",
+    "webpack": "^1.12.4",
+    "webpack-error-notification": "^0.1.4"
   },
   "dependencies": {
-    "lodash.isplainobject": "^3.2.0",
-    "ramda": "^0.17.1"
+    "livescript": "^1.4.0"
   }
 }

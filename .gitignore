@@ -1,3 +1,4 @@
-xeno/*
-node_modules/*
-lib/*
+/build
+/node_modules
+/lib
+*.log
