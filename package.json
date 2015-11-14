@@ -8,13 +8,17 @@
   "scripts": {
     "test": "mocha \"test/**/*.ls\"",
     "test.w": "mocha \"test/**/*.ls\" --watch",
-    "dev": "webpack --watch --colors --progress",
+    "dev": "webpack --watch --colors --progress --target node",
     "prepublish": "webpack --colors --progress"
   },
   "devDependencies": {
     "babel-core": "^6.1.4",
     "babel-loader": "^6.1.0",
+    "babel-plugin-flow-comments": "^1.0.9",
+    "babel-plugin-syntax-flow": "^6.1.18",
+    "babel-plugin-transform-flow-strip-types": "^6.1.18",
     "babel-preset-es2015": "^6.1.4",
+    "babel-preset-stage-1": "^6.1.18",
     "chai": "^1.10.0",
     "chai-changes": "^1.3.4",
     "chai-fuzzy": "^1.5.0",
@@ -27,6 +31,7 @@
     "webpack-error-notification": "^0.1.4"
   },
   "dependencies": {
-    "livescript": "^1.4.0"
+    "livescript": "^1.4.0",
+    "ramda": "^0.18.0"
   }
 }

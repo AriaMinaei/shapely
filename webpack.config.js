@@ -6,11 +6,12 @@ function makeConfig() {
 		entry: {
 			shapely: ['./src/shapely']
 		},
+		target: 'node',
 		output: {
 			path: './lib',
 			filename: '[name].js',
 			publicPath: '/lib/',
-			libraryTarget: 'commonjs'
+			libraryTarget: 'commonjs2'
 		},
 		externals: [
 			// all none-relative paths are external
@@ -29,7 +30,8 @@ function makeConfig() {
 						loader: 'babel',
 						exclude: /(node_modules)/,
 						query: {
-							presets: ['es2015']
+							plugins: ['syntax-flow', 'transform-flow-strip-types'],
+							presets: ['es2015', 'stage-1']
 						}
 					}
 
