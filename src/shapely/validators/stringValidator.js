@@ -17,13 +17,12 @@ var stringValidator: Validator = {
 	getValidationResult: function(val: mixed): ValidationResult {
 		if (stringValidator.isValid(val)) {
 			return {
-				isValid: true
+				isValid: 'true'
 			};
 		} else {
 			return {
-				isValid: false,
-				expected: 'String',
-				actual: typeOf(val)
+				isValid: 'false',
+				message: `String expected. '${typeOf(val)}' received.`
 			};
 		}
 	}

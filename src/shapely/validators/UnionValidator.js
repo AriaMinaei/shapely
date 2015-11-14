@@ -2,6 +2,7 @@
 
 import createValidator from '../createValidator';
 import type {Validator} from './Validator';
+import type {ValidationResult} from './ValidationResult';
 
 export default class UnionValidator {
 	validators: Array<Validator>;
@@ -18,5 +19,25 @@ export default class UnionValidator {
 			if (validator.isValid(val)) return true;
 		}
 		return false;
+	}
+
+	getValidationResult(val: mixed): ValidationResult {
+		if (this.isValid(val)) {
+			return {
+				isValid: 'true'
+			}
+		} else {
+			return {
+				isValid: 'false',
+				message: 'Value doesn\'t match any of the expected variants.'
+			}
+		}
+	}
+
+	validate(val: mixed): mixed {
+		const validationResult = this.getValidationResult(val);
+		if (validationResult.isValid === 'false') {
+			throw new Error(validationResult.message);
+		}
 	}
 }

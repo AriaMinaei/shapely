@@ -17,13 +17,12 @@ var numberValidator: Validator = {
 	getValidationResult: function(val: mixed): ValidationResult {
 		if (numberValidator.isValid(val)) {
 			return {
-				isValid: true
+				isValid: 'true'
 			};
 		} else {
 			return {
-				isValid: false,
-				expected: 'number',
-				actual: typeOf(val)
+				isValid: 'false',
+				message: `Number expected. '${typeOf(val)}' received.`
 			};
 		}
 	}

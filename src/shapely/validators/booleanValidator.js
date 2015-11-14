@@ -17,13 +17,12 @@ var booleanValidator: Validator = {
 	getValidationResult: function(val: mixed): ValidationResult {
 		if (booleanValidator.isValid(val)) {
 			return {
-				isValid: true
+				isValid: 'true'
 			};
 		} else {
 			return {
-				isValid: false,
-				expected: 'boolean',
-				actual: typeOf(val)
+				isValid: 'false',
+				message: `Boolean expected. '${typeOf(val)}' received.`
 			};
 		}
 	}

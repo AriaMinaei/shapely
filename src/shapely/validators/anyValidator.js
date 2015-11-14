@@ -12,9 +12,11 @@ var anyValidator: Validator = {
 
 	getValidationResult: function(val: mixed): ValidationResult {
 		return {
-			isValid: true
+			isValid: 'true'
 		};
-	}
+	},
+
+	validate: function(val: mixed): any {}
 };
 
 export default anyValidator;

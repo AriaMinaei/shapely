@@ -2,6 +2,9 @@
 
 import createValidator from '../createValidator';
 import type {Validator} from './Validator';
+import type {ValidationResult} from './ValidationResult';
+const typeOf = require('ramda/src/type');
+
 
 export default class RecordValidator {
 	shape: {[key: mixed]: Validator};
@@ -12,7 +15,21 @@ export default class RecordValidator {
 
 		this.shape = {};
 		for (let propName of Object.getOwnPropertyNames(desc)) {
-			this.shape[propName] = createValidator(desc[propName]);
+			try {
+				this.shape[propName] = createValidator(desc[propName]);
+			} catch (e) {
+				let propertyName = propName;
+				let stack = e.stack;
+				if (e.originalStack) {
+					stack = e.originalStack;
+					propertyName += '.' + e.propertyName;
+					e.propertyName = propertyName;
+				} else {
+					e.originalStack = e.stack;
+				}
+				e.stack = `Error defining prop '${propertyName}': ${e.originalStack}`
+				throw e;
+			}
 		}
 	}
 
@@ -27,5 +44,35 @@ export default class RecordValidator {
 		}
 
 		return true;
+	}
+
+	getValidationResult(val: mixed): ValidationResult {
+		if (!(typeof val === 'object' && val))
+			return {
+				isValid: 'false',
+				message: `Object expected. ${typeOf(val)}`
+			}
+
+		for (let key of Object.keys(this.shape)) {
+			let validator = this.shape[key];
+			let result = validator.getValidationResult(val);
+			if (result.isValid == 'false') {
+				return {
+					isValid: 'false',
+					message: `Error validating prop ${key}:\n ${result.message}`
+				}
+			}
+		}
+
+		return {
+			isValid: 'true'
+		}
+	}
+
+	validate(val: mixed): mixed {
+		const result = this.getValidationResult(val);
+		if (result.isValid === 'false') {
+			throw Error(result.message);
+		}
 	}
 }
