@@ -22,7 +22,8 @@ var booleanValidator: Validator = {
 		} else {
 			return {
 				isValid: 'false',
-				message: `Boolean expected. '${typeOf(val)}' received.`
+				message: `Boolean expected. '${typeOf(val)}' received.`,
+				score: 0
 			};
 		}
 	}

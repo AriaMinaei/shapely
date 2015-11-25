@@ -4,11 +4,11 @@
   "description": "(work in progress)",
   "author": "Aria Minaei",
   "license": "MIT",
-  "main": "src/shapely.js",
+  "main": "lib/shapely.js",
   "scripts": {
     "test": "mocha \"test/**/*.ls\"",
     "test.w": "mocha \"test/**/*.ls\" --watch",
-    "dev": "webpack --watch --colors --progress --target node",
+    "dev": "webpack --watch --colors --progress",
     "prepublish": "webpack --colors --progress"
   },
   "devDependencies": {

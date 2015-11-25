@@ -22,7 +22,8 @@ var stringValidator: Validator = {
 		} else {
 			return {
 				isValid: 'false',
-				message: `String expected. '${typeOf(val)}' received.`
+				message: `String expected. '${typeOf(val)}' received.`,
+				score: 0
 			};
 		}
 	}

@@ -21,14 +21,13 @@ export default function createValidator(desc: mixed): Validator {
 	} else if (
 		typeof desc === 'object' &&
 		desc &&
-		typeof desc.isValid === 'function'
-		// typeof desc.getValidationResult === 'function'
+		typeof desc.isValid === 'function' &&
+		typeof desc.getValidationResult === 'function'
 		) {
 		return desc;
 	} else if (typeof desc === 'string' || typeof desc === 'number' || typeof desc === 'boolean') {
 		return new ExactValueValidator(desc);
 	} else {
-		console.log(desc);
 		throw new Error(`Can't recognize this descriptor: ${desc}`);
 	}
 }

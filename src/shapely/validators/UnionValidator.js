@@ -29,15 +29,36 @@ export default class UnionValidator {
 		} else {
 			return {
 				isValid: 'false',
-				message: 'Value doesn\'t match any of the expected variants.'
+				message:
+					`Value doesn't match any of the expected variants.
+Value: ${JSON.stringify(val)}
+Details: \n${this._getValidationMessage(val)}`,
+				score: 0
 			}
 		}
 	}
 
-	validate(val: mixed): mixed {
-		const validationResult = this.getValidationResult(val);
-		if (validationResult.isValid === 'false') {
-			throw new Error(validationResult.message);
+	_getValidationMessage(val: mixed): string {
+		var validationResults: Array<ValidationResult> = [];
+		for (let validator of this.validators) {
+			validationResults.push(validator.getValidationResult(val));
 		}
+
+		validationResults.sort(function(a: any, b: any) {
+			if (a.score < b.score) {
+				return 1;
+			} else if (a.score > b.score) {
+				return -1;
+			} else {
+				return 0;
+			}
+		});
+
+		if (validationResults.length > 3)
+			validationResults.length = 3;
+
+		return validationResults
+			.map((v: any) => v.message)
+			.join('\n');
 	}
 }

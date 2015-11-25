@@ -1,3 +1,4 @@
+// JavaScript
 /* @flow */
 
 import createValidator from '../createValidator';
@@ -23,7 +24,8 @@ export default class ExactValueValidator {
 		} else {
 			return {
 				isValid: 'false',
-				message: `Expected: ${JSON.stringify(this.expectedValue)}. Received: ${JSON.stringify(val)}`
+				message: `Expected: ${JSON.stringify(this.expectedValue)}. Received: ${JSON.stringify(val)}`,
+				score: 0
 			}
 		}
 	}

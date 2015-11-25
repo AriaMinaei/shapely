@@ -1,6 +1,7 @@
 /* @flow */
 
 import createValidator from '../createValidator';
+import type {ValidationResult} from "./ValidationResult";
 import type {Validator} from './Validator';
 
 export default class OptionalValidator {
@@ -15,5 +16,14 @@ export default class OptionalValidator {
 			return true;
 
 		return this.validator.isValid(val);
+	}
+
+	getValidationResult(val: mixed): ValidationResult {
+		if (!(val))
+			return {
+				isValid: 'true'
+			}
+
+		return this.validator.getValidationResult(val);
 	}
 }

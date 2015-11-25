@@ -27,7 +27,7 @@ export default class RecordValidator {
 				} else {
 					e.originalStack = e.stack;
 				}
-				e.stack = `Error defining prop '${propertyName}': ${e.originalStack}`
+				e.stack = `Error defining prop \'${propertyName}': ${e.originalStack}`
 				throw e;
 			}
 		}
@@ -50,29 +50,26 @@ export default class RecordValidator {
 		if (!(typeof val === 'object' && val))
 			return {
 				isValid: 'false',
-				message: `Object expected. ${typeOf(val)}`
+				message: `Object expected. ${typeOf(val)}`,
+				score: 0
 			}
 
+		var numberOfPropsCounted = 0
 		for (let key of Object.keys(this.shape)) {
 			let validator = this.shape[key];
-			let result = validator.getValidationResult(val);
+			let result = validator.getValidationResult(val[key]);
 			if (result.isValid == 'false') {
 				return {
 					isValid: 'false',
-					message: `Error validating prop ${key}:\n ${result.message}`
+					message: `Error validating prop ${key}:\n ${result.message}`,
+					score: 1 + numberOfPropsCounted
 				}
 			}
+			numberOfPropsCounted++;
 		}
 
 		return {
 			isValid: 'true'
-		}
-	}
-
-	validate(val: mixed): mixed {
-		const result = this.getValidationResult(val);
-		if (result.isValid === 'false') {
-			throw Error(result.message);
 		}
 	}
 }

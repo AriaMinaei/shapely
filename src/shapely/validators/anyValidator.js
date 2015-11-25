@@ -13,7 +13,7 @@ var anyValidator: Validator = {
 	getValidationResult: function(val: mixed): ValidationResult {
 		return {
 			isValid: 'true'
-		};
+		}
 	},
 
 	validate: function(val: mixed): any {}

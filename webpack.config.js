@@ -15,13 +15,14 @@ function makeConfig() {
 		},
 		externals: [
 			// all none-relative paths are external
-			/^[a-z\-0-9]+$/
+			/^[a-z\-0-9]+/
 		],
 
 		resolve: {
 			extensions: ['.js', '.json']
 		},
 
+		devtool: 'source-map',
 		module: {
 			loaders: [
 					{test: /\.json$/, loader: 'json'},
