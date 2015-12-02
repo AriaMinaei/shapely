@@ -1,7 +1,7 @@
 {
   "name": "shapely",
-  "version": "0.2.0-dev.1",
-  "description": "(work in progress)",
+  "version": "0.2.0",
+  "description": "Runtime shape validation with tagged unions",
   "author": "Aria Minaei",
   "license": "MIT",
   "main": "lib/shapely.js",
