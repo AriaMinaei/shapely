@@ -1,6 +1,6 @@
 {
   "name": "shapely",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Runtime shape validation with tagged unions",
   "author": "Aria Minaei",
   "license": "MIT",
