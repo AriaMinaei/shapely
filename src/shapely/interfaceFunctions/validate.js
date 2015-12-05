@@ -1,6 +1,5 @@
 // @flow
 
-import type {Validator} from '../validators/Validator'
 import createValidator from '../createValidator'
 
 export default function validate<T>(validationDescriptor: mixed, val: T): T {

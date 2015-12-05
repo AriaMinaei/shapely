@@ -10,3 +10,4 @@ export const optional = require('./shapely/interfaceFunctions/optional').default
 export const validate = require('./shapely/interfaceFunctions/validate').default;
 export const deferred = require('./shapely/interfaceFunctions/deferred').default;
 export const createValidator = require('./shapely/createValidator').default;
+export const isValid = require('./shapely/interfaceFunctions/isValid').default;
