@@ -3,7 +3,7 @@ require! {
 }
 
 o = it
-describe.only "createValidator", ->
+describe "createValidator", ->
 	o "should turn String into stringValidator", ->
 		createValidator String
 			..isValid('hello').should.equal true

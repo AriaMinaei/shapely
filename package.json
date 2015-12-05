@@ -32,6 +32,7 @@
   },
   "dependencies": {
     "livescript": "^1.4.0",
+    "lodash": "^3.10.1",
     "ramda": "^0.18.0"
   }
 }

@@ -1,5 +1,5 @@
 require! {
-	'../lib/shapely': {createValidator, deferred}
+	'../../lib/shapely': {createValidator, deferred}
 }
 
 o = it

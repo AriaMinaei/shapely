@@ -1,6 +1,7 @@
 // @flow
 
 import typeOf from 'ramda/src/type';
+import isPlainObject from 'lodash/lang/isPlainObject';
 import createValidator from '../createValidator';
 import type {Validator} from './Validator';
 import type {ValidationResult} from './ValidationResult';
@@ -9,7 +10,7 @@ export default class RecordValidator {
 	shape: {[key: mixed]: Validator};
 
 	constructor(desc: mixed) {
-		if (!(typeof desc === 'object' && desc))
+		if (!(typeof desc === 'object' && desc && isPlainObject(desc)))
 			throw Error(`A record must be defined by an object.`);
 
 		this.shape = {};
