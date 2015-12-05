@@ -18,7 +18,7 @@ import ExactValueValidator from './validators/ExactValueValidator';
  * @throws {Error} If the descriptor is unrecognized.
  */
 export default function createValidator(desc: mixed): Validator {
-	if (!(desc))
+	if (desc == null)
 		throw Error('Null cannot be a valid validation descriptor');
 
 	if (desc === String) {

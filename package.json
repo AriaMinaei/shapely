@@ -7,7 +7,7 @@
   "main": "lib/shapely.js",
   "scripts": {
     "test": "mocha \"test/**/*.ls\"",
-    "test.w": "mocha \"test/**/*.ls\" --watch",
+    "test:watch": "mocha \"test/**/*.ls\" --watch",
     "dev": "webpack --watch --colors --progress",
     "prepublish": "webpack --colors --progress"
   },
