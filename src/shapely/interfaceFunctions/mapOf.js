@@ -1,4 +1,4 @@
-/* @flow */
+// @flow
 
 import MapOfValidator from '../validators/MapOfValidator';
 

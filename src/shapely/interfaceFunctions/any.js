@@ -1,4 +1,4 @@
-/* @flow */
+// @flow
 
 import anyValidator from '../validators/anyValidator';
 

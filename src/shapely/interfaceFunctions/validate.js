@@ -1,4 +1,4 @@
-/* @flow */
+// @flow
 
 import type {Validator} from '../validators/Validator'
 

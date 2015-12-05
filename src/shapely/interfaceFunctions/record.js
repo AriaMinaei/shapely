@@ -1,4 +1,4 @@
-/* @flow */
+// @flow
 
 import RecordValidator from '../validators/RecordValidator';
 

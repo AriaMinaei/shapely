@@ -1,4 +1,4 @@
-/* @flow */
+// @flow
 
 export const union = require('./shapely/interfaceFunctions/union').default;
 export const any = require('./shapely/interfaceFunctions/any').default;
@@ -9,3 +9,4 @@ export const record = require('./shapely/interfaceFunctions/record').default;
 export const optional = require('./shapely/interfaceFunctions/optional').default;
 export const validate = require('./shapely/interfaceFunctions/validate').default;
 export const deferred = require('./shapely/interfaceFunctions/deferred').default;
+export const createValidator = require('./shapely/createValidator').default;

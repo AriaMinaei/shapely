@@ -1,7 +1,6 @@
 // @flow
 
-const typeOf = require('ramda/src/type');
-
+import typeOf from 'ramda/src/type';
 import type {ValidationResult} from "./ValidationResult";
 import type {Validator} from "./Validator";
 
@@ -15,8 +14,6 @@ var anyValidator: Validator = {
 			isValid: 'true'
 		}
 	},
-
-	validate: function(val: mixed): any {}
 };
 
 export default anyValidator;

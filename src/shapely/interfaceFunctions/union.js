@@ -1,4 +1,4 @@
-/* @flow */
+// @flow
 
 import UnionValidator from '../validators/UnionValidator';
 

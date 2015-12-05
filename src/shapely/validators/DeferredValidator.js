@@ -1,7 +1,6 @@
-/* @flow */
+// @flow
 
-const typeOf = require('ramda/src/type');
-
+import typeOf from 'ramda/src/type';
 import createValidator from '../createValidator';
 import type {ValidationResult} from './ValidationResult'
 import type {Validator} from './Validator';
@@ -10,6 +9,23 @@ export default class DeferredValidator {
 	validator: Validator;
 	deferredValidator: any;
 
+	/**
+	 * DeferredValidator is useful for defining recursive types. It also
+	 * works in cases where you want to define a dependency on a type
+	 * that's not yet defined.
+	 *
+	 * Example:
+	 * 	import {union, record, deferred, nil} from 'shapely';
+	 * 	const Tree = union(
+	 * 		nil,
+	 * 		record({
+	 * 			kind: 'leaf', value: Number
+	 * 		}),
+	 * 		record({
+	 * 			kind: 'node', left: deferred(=> Tree), right: deferred(=> Tree)
+	 * 		})
+	 * 	);
+	 */
 	constructor(desc: mixed) {
 		if (typeof desc !== 'function') {
 			throw Error(`Deferred validator only accepts a function. ${typeOf(desc)} given`);

@@ -1,4 +1,4 @@
-/* @flow */
+// @flow
 
 import ArrayOfValidator from '../validators/ArrayOfValidator';
 

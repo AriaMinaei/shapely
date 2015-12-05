@@ -1,4 +1,4 @@
-/* @flow */
+// @flow
 
 import type {Validator} from './validators/Validator';
 
@@ -8,6 +8,15 @@ import booleanValidator from './validators/booleanValidator';
 import UnionValidator from './validators/UnionValidator';
 import ExactValueValidator from './validators/ExactValueValidator';
 
+/**
+ * Takes the descriptor of a Validator and returns the Validator.
+ * Examples:
+ * 	createValidator(String) // returns stringValidator
+ * 	createValidator('hello') // returns ExactValueValidator<'hello'>
+ * 	createValidator(createValidator(String)) // returns the same stringValidator
+ *
+ * @throws {Error} If the descriptor is unrecognized.
+ */
 export default function createValidator(desc: mixed): Validator {
 	if (!(desc))
 		throw Error('Null cannot be a valid validation descriptor');

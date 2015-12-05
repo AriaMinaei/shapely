@@ -1,4 +1,4 @@
-/* @flow */
+// @flow
 
 import createValidator from '../createValidator';
 import type {ValidationResult} from "./ValidationResult";

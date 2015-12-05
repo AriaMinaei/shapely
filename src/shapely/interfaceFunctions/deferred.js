@@ -1,4 +1,4 @@
-/* @flow */
+// @flow
 
 import DeferredValidator from '../validators/DeferredValidator';
 

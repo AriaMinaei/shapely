@@ -1,4 +1,4 @@
-/* @flow */
+// @flow
 
 import nilValidator from '../validators/nilValidator';
 

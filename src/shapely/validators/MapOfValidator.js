@@ -1,6 +1,6 @@
-/* @flow */
-const typeOf = require('ramda/src/type');
+// @flow
 
+import typeOf from 'ramda/src/type';
 import createValidator from '../createValidator';
 import type {ValidationResult} from './ValidationResult';
 import type {Validator} from './Validator';

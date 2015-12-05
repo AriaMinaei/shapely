@@ -1,7 +1,6 @@
 // @flow
 
-const typeOf = require('ramda/src/type');
-
+import typeOf from 'ramda/src/type';
 import type {ValidationResult} from "./ValidationResult";
 import type {Validator} from "./Validator";
 
@@ -22,7 +21,7 @@ var numberValidator: Validator = {
 		} else {
 			return {
 				isValid: 'false',
-				message: `Number expected. '${typeOf(val)}' received.`,
+				message: `Number expected. '${typeOf(val)}' given.`,
 				score: 0
 			};
 		}

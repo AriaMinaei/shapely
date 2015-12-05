@@ -1,4 +1,4 @@
-/* @flow */
+// @flow
 
 export type ValidationResult =
 	{isValid: 'true'} |

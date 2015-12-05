@@ -1,10 +1,9 @@
-/* @flow */
+// @flow
 
+import typeOf from 'ramda/src/type';
 import createValidator from '../createValidator';
 import type {Validator} from './Validator';
 import type {ValidationResult} from './ValidationResult';
-const typeOf = require('ramda/src/type');
-
 
 export default class RecordValidator {
 	shape: {[key: mixed]: Validator};
@@ -50,7 +49,7 @@ export default class RecordValidator {
 		if (!(typeof val === 'object' && val))
 			return {
 				isValid: 'false',
-				message: `Object expected. ${typeOf(val)}`,
+				message: `Object expected, ${typeOf(val)} given.`,
 				score: 0
 			}
 
