@@ -3,7 +3,7 @@ require! {
 }
 
 o = it
-describe.only "RecordValidator", ->
+describe "RecordValidator", ->
 	o "should be recognized", ->
 		(-> createValidator record({a: String}))
 		.should.not.throw!

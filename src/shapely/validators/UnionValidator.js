@@ -27,19 +27,20 @@ export default class UnionValidator {
 				isValid: 'true'
 			}
 		} else {
+			const details = this._getValidationDetails(val);
 			return {
 				isValid: 'false',
 				message:
 					`Value doesn't match any of the expected variants.
 Value: ${JSON.stringify(val)}
-Details: \n${this._getValidationMessage(val)}`,
-				score: 0
+Details: \n${details.message}`,
+				score: details.score
 			}
 		}
 	}
 
-	_getValidationMessage(val: mixed): string {
-		var validationResults: Array<ValidationResult> = [];
+	_getValidationDetails(val: mixed): {message: string, score: number} {
+		var validationResults: Array<any> = [];
 		for (let validator of this.validators) {
 			validationResults.push(validator.getValidationResult(val));
 		}
@@ -57,8 +58,13 @@ Details: \n${this._getValidationMessage(val)}`,
 		if (validationResults.length > 3)
 			validationResults.length = 3;
 
-		return validationResults
+		const message = validationResults
 			.map((v: any) => v.message)
 			.join('\n');
+
+		return {
+			message: message,
+			score: validationResults[0].score
+		}
 	}
 }
