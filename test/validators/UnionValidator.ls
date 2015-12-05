@@ -3,22 +3,22 @@ require! {
 }
 
 o = it
-describe "UnionValidator", ->
-	o "should be recognized", ->
+describe "UnionValidator", !->
+	o "should be recognized", !->
 		(-> createValidator union(record({a: String}), String))
 		.should.not.throw!
 
-	describe "::constructor()", ->
-		o "should only accept validators", ->
+	describe "::constructor()", !->
+		o "should only accept validators", !->
 			(-> union String, Number ).should.not.throw!
 			(-> union String, null).should.throw!
 
-	describe "::isValid()", ->
+	describe "::isValid()", !->
 		validator = null
 		beforeEach ->
 			validator := createValidator union String, record(kind: 'leaf')
 
-		o "should validate all variants", ->
+		o "should validate all variants", !->
 			validator
 			.isValid 'hello'
 			.should.equal true
@@ -27,17 +27,17 @@ describe "UnionValidator", ->
 			.isValid {kind: 'leaf'}
 			.should.equal true
 
-		o "should only validate variants", ->
+		o "should only validate variants", !->
 			validator
 			.isValid 0
 			.should.equal false
 
-	describe "::getValidationResult()", ->
+	describe "::getValidationResult()", !->
 		validator = null
 		beforeEach ->
 			validator := createValidator union String, record(kind: 'leaf', value: Number)
 
-		o "should validate all variants", ->
+		o "should validate all variants", !->
 			validator
 			.getValidationResult 'hello'
 				..isValid.should.equal 'true'
@@ -46,12 +46,12 @@ describe "UnionValidator", ->
 			.getValidationResult {kind: 'leaf', value: 12}
 				..isValid.should.equal 'true'
 
-		o "should only validate variants", ->
+		o "should only validate variants", !->
 			validator
 			.getValidationResult 0
 				..isValid.should.equal 'false'
 
-		o "should return the best matched score", ->
+		o "should return the best matched score", !->
 			validator
 			.getValidationResult 0
 				..score.should.equal 0

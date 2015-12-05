@@ -51,7 +51,6 @@ var x$;
 x$ = createValidator(String);
 x$.isValid('hello').should.equal(true);
 x$.isValid(12).should.equal(false);
-return x$;
 ```
 
 should turn Number into numberValidator.
@@ -61,7 +60,6 @@ var x$;
 x$ = createValidator(Number);
 x$.isValid(10).should.equal(true);
 x$.isValid('hello').should.equal(false);
-return x$;
 ```
 
 should turn Boolean into booleanValidator.
@@ -71,7 +69,6 @@ var x$;
 x$ = createValidator(Boolean);
 x$.isValid(false).should.equal(true);
 x$.isValid('hello').should.equal(false);
-return x$;
 ```
 
 should turn strings into ExactValueValidator.
@@ -81,7 +78,6 @@ var x$;
 x$ = createValidator('hello');
 x$.isValid('hello').should.equal(true);
 x$.isValid('a').should.equal(false);
-return x$;
 ```
 
 should turn numbers into ExactValueValidator.
@@ -91,7 +87,6 @@ var x$;
 x$ = createValidator(10);
 x$.isValid(10).should.equal(true);
 x$.isValid(11).should.equal(false);
-return x$;
 ```
 
 should turn booleans into ExactValueValidator.
@@ -101,7 +96,6 @@ var x$;
 x$ = createValidator(false);
 x$.isValid(false).should.equal(true);
 x$.isValid(11).should.equal(false);
-return x$;
 ```
 
 should act like identity() if supplied with a Validator.
@@ -111,7 +105,7 @@ var validator;
 validator = record({
   a: String
 });
-return createValidator(validator).should.equal(validator);
+createValidator(validator).should.equal(validator);
 ```
 
 <a name="isvalid"></a>
@@ -122,25 +116,25 @@ should create validator on the fly if needed.
 (function(){
   return isValid(String, "hello");
 }).should.not['throw']();
-return function(){
+(function(){
   return isValid(record({
     a: String
   }), {
     a: 'hello'
   });
-}.should.not['throw']();
+}).should.not['throw']();
 ```
 
 should return value if value matches.
 
 ```js
-return isValid(String, "hello").should.equal(true);
+isValid(String, "hello").should.equal(true);
 ```
 
 should throw if value doesn't match.
 
 ```js
-return isValid(String, 10).should.equal(false);
+isValid(String, 10).should.equal(false);
 ```
 
 <a name="validate"></a>
@@ -151,27 +145,27 @@ should create validator on the fly if needed.
 (function(){
   return validate(String, "hello");
 }).should.not['throw']();
-return function(){
+(function(){
   return validate(record({
     a: String
   }), {
     a: 'hello'
   });
-}.should.not['throw']();
+}).should.not['throw']();
 ```
 
 should return value if value matches.
 
 ```js
-return validate(String, "hello").should.equal("hello");
+validate(String, "hello").should.equal("hello");
 ```
 
 should throw if value doesn't match.
 
 ```js
-return function(){
+(function(){
   return validate(String, 10);
-}.should['throw']();
+}).should['throw']();
 ```
 
 <a name="arrayofvalidator"></a>
@@ -179,9 +173,9 @@ return function(){
 should be recognized.
 
 ```js
-return function(){
+(function(){
   return createValidator(arrayOf(Number));
-}.should.not['throw']();
+}).should.not['throw']();
 ```
 
 <a name="arrayofvalidator-isvalid"></a>
@@ -189,25 +183,25 @@ return function(){
 should validate empty arrays.
 
 ```js
-return validator.isValid([]).should.equal(true);
+validator.isValid([]).should.equal(true);
 ```
 
 should validate correct arrays.
 
 ```js
-return validator.isValid([1, 2, 3]).should.equal(true);
+validator.isValid([1, 2, 3]).should.equal(true);
 ```
 
 should only validate correct arrays.
 
 ```js
-return validator.isValid([1, 2, 'hello']).should.equal(false);
+validator.isValid([1, 2, 'hello']).should.equal(false);
 ```
 
 should only validate arrays.
 
 ```js
-return validator.isValid(12).should.equal(false);
+validator.isValid(12).should.equal(false);
 ```
 
 <a name="arrayofvalidator-getvalidationresult"></a>
@@ -215,7 +209,7 @@ return validator.isValid(12).should.equal(false);
 should validate empty arrays.
 
 ```js
-return validator.getValidationResult([]).should.be.like({
+validator.getValidationResult([]).should.be.like({
   isValid: 'true'
 });
 ```
@@ -223,7 +217,7 @@ return validator.getValidationResult([]).should.be.like({
 should validate correct arrays.
 
 ```js
-return validator.getValidationResult([1, 2, 3]).should.be.like({
+validator.getValidationResult([1, 2, 3]).should.be.like({
   isValid: 'true'
 });
 ```
@@ -235,7 +229,6 @@ var x$;
 x$ = validator.getValidationResult([1, 2, 'hello']);
 x$.isValid.should.equal('false');
 x$.score.should.equal(1);
-return x$;
 ```
 
 should only validate arrays.
@@ -245,7 +238,6 @@ var x$;
 x$ = validator.getValidationResult(12);
 x$.isValid.should.equal('false');
 x$.score.should.equal(0);
-return x$;
 ```
 
 <a name="deferredvalidator"></a>
@@ -253,11 +245,11 @@ return x$;
 should be recognized.
 
 ```js
-return function(){
+(function(){
   return createValidator(deferred(function(){
     return Number;
   }));
-}.should.not['throw']();
+}).should.not['throw']();
 ```
 
 <a name="deferredvalidator-isvalid"></a>
@@ -265,13 +257,13 @@ return function(){
 should validate matches.
 
 ```js
-return validator.isValid(12).should.equal(true);
+validator.isValid(12).should.equal(true);
 ```
 
 should only validate matches.
 
 ```js
-return validator.isValid('hello').should.equal(false);
+validator.isValid('hello').should.equal(false);
 ```
 
 <a name="deferredvalidator-getvalidationresult"></a>
@@ -279,7 +271,7 @@ return validator.isValid('hello').should.equal(false);
 should validate matches.
 
 ```js
-return validator.getValidationResult(12).should.be.like({
+validator.getValidationResult(12).should.be.like({
   isValid: 'true'
 });
 ```
@@ -291,7 +283,6 @@ var x$;
 x$ = validator.getValidationResult('hello');
 x$.isValid.should.equal('false');
 x$.score.should.equal(0);
-return x$;
 ```
 
 <a name="exactvaluevalidator"></a>
@@ -299,9 +290,9 @@ return x$;
 should be recognized.
 
 ```js
-return function(){
+(function(){
   return createValidator('hello');
-}.should.not['throw']();
+}).should.not['throw']();
 ```
 
 <a name="exactvaluevalidator-isvalid"></a>
@@ -309,13 +300,13 @@ return function(){
 should validate exact value.
 
 ```js
-return createValidator('hello').isValid('hello').should.equal(true);
+createValidator('hello').isValid('hello').should.equal(true);
 ```
 
 should only validate exact value.
 
 ```js
-return createValidator(12).isValid(13).should.equal(false);
+createValidator(12).isValid(13).should.equal(false);
 ```
 
 <a name="exactvaluevalidator-getvalidationresult"></a>
@@ -323,7 +314,7 @@ return createValidator(12).isValid(13).should.equal(false);
 should validate exact value.
 
 ```js
-return createValidator(true).getValidationResult(true).should.be.like({
+createValidator(true).getValidationResult(true).should.be.like({
   isValid: 'true'
 });
 ```
@@ -335,7 +326,6 @@ var x$;
 x$ = createValidator('hello').getValidationResult(12);
 x$.isValid.should.equal('false');
 x$.score.should.equal(0);
-return x$;
 ```
 
 <a name="mapofvalidator"></a>
@@ -343,9 +333,9 @@ return x$;
 should be recognized.
 
 ```js
-return function(){
+(function(){
   return createValidator(mapOf(Number));
-}.should.not['throw']();
+}).should.not['throw']();
 ```
 
 <a name="mapofvalidator-isvalid"></a>
@@ -353,13 +343,13 @@ return function(){
 should validate empty objects.
 
 ```js
-return validator.isValid({}).should.equal(true);
+validator.isValid({}).should.equal(true);
 ```
 
 should validate correct objects.
 
 ```js
-return validator.isValid({
+validator.isValid({
   a: 1,
   b: 2
 }).should.equal(true);
@@ -368,7 +358,7 @@ return validator.isValid({
 should only validate correct objects.
 
 ```js
-return validator.isValid({
+validator.isValid({
   a: 1,
   b: 'hello'
 }).should.equal(false);
@@ -377,7 +367,7 @@ return validator.isValid({
 should only validate objects.
 
 ```js
-return validator.isValid(12).should.equal(false);
+validator.isValid(12).should.equal(false);
 ```
 
 <a name="mapofvalidator-getvalidationresult"></a>
@@ -385,7 +375,7 @@ return validator.isValid(12).should.equal(false);
 should validate empty objects.
 
 ```js
-return validator.getValidationResult({}).should.be.like({
+validator.getValidationResult({}).should.be.like({
   isValid: 'true'
 });
 ```
@@ -393,7 +383,7 @@ return validator.getValidationResult({}).should.be.like({
 should validate correct objects.
 
 ```js
-return validator.getValidationResult({
+validator.getValidationResult({
   a: 1,
   b: 2
 }).should.be.like({
@@ -411,7 +401,6 @@ x$ = validator.getValidationResult({
 });
 x$.isValid.should.equal('false');
 x$.score.should.equal(1);
-return x$;
 ```
 
 should only validate objects.
@@ -421,7 +410,6 @@ var x$;
 x$ = validator.getValidationResult(12);
 x$.isValid.should.equal('false');
 x$.score.should.equal(0);
-return x$;
 ```
 
 <a name="optionalvalidator"></a>
@@ -429,9 +417,9 @@ return x$;
 should be recognized.
 
 ```js
-return function(){
+(function(){
   return createValidator(optional(Number));
-}.should.not['throw']();
+}).should.not['throw']();
 ```
 
 <a name="optionalvalidator-isvalid"></a>
@@ -439,19 +427,19 @@ return function(){
 should validate matches.
 
 ```js
-return createValidator(optional(Number)).isValid(12).should.equal(true);
+createValidator(optional(Number)).isValid(12).should.equal(true);
 ```
 
 should validate nils.
 
 ```js
-return createValidator(optional(Number)).isValid(null).should.equal(true);
+createValidator(optional(Number)).isValid(null).should.equal(true);
 ```
 
 should not validate non-matches.
 
 ```js
-return createValidator(optional(Number)).isValid('hello').should.equal(false);
+createValidator(optional(Number)).isValid('hello').should.equal(false);
 ```
 
 <a name="optionalvalidator-getvalidationresult"></a>
@@ -459,7 +447,7 @@ return createValidator(optional(Number)).isValid('hello').should.equal(false);
 should validate matches.
 
 ```js
-return createValidator(optional(Number)).getValidationResult(12).should.be.like({
+createValidator(optional(Number)).getValidationResult(12).should.be.like({
   isValid: 'true'
 });
 ```
@@ -467,7 +455,7 @@ return createValidator(optional(Number)).getValidationResult(12).should.be.like(
 should validate nils.
 
 ```js
-return createValidator(optional(Number)).getValidationResult(undefined).should.be.like({
+createValidator(optional(Number)).getValidationResult(undefined).should.be.like({
   isValid: 'true'
 });
 ```
@@ -479,7 +467,6 @@ var x$;
 x$ = createValidator(optional(Number)).getValidationResult('hello');
 x$.isValid.should.equal('false');
 x$.score.should.equal(0);
-return x$;
 ```
 
 <a name="recordvalidator"></a>
@@ -487,11 +474,11 @@ return x$;
 should be recognized.
 
 ```js
-return function(){
+(function(){
   return createValidator(record({
     a: String
   }));
-}.should.not['throw']();
+}).should.not['throw']();
 ```
 
 <a name="recordvalidator-constructor"></a>
@@ -504,9 +491,9 @@ should only accept objects.
     a: String
   });
 }).should.not['throw']();
-return function(){
+(function(){
   return record([]);
-}.should['throw']();
+}).should['throw']();
 ```
 
 <a name="recordvalidator-isvalid"></a>
@@ -514,7 +501,7 @@ return function(){
 should validate matches.
 
 ```js
-return validator.isValid({
+validator.isValid({
   a: 'hello',
   b: 12
 }).should.equal(true);
@@ -523,7 +510,7 @@ return validator.isValid({
 should validate ignore extra properties.
 
 ```js
-return validator.isValid({
+validator.isValid({
   a: 'hello',
   b: 12,
   c: 13
@@ -533,7 +520,7 @@ return validator.isValid({
 should only validate matches.
 
 ```js
-return validator.isValid({
+validator.isValid({
   a: 'hello',
   b: 'hello'
 }).should.equal(false);
@@ -544,7 +531,7 @@ return validator.isValid({
 should validate matches.
 
 ```js
-return validator.getValidationResult({
+validator.getValidationResult({
   kind: 'leaf',
   value: 12
 }).isValid.should.equal('true');
@@ -553,7 +540,7 @@ return validator.getValidationResult({
 should ignore extra properties.
 
 ```js
-return validator.getValidationResult({
+validator.getValidationResult({
   kind: 'leaf',
   value: 12,
   extra: []
@@ -570,7 +557,6 @@ x$.score.should.equal(0);
 y$ = validator.getValidationResult({});
 y$.isValid.should.equal('false');
 y$.score.should.equal(1);
-return y$;
 ```
 
 should only validate matches and return correct score.
@@ -595,7 +581,6 @@ z$ = validator.getValidationResult({
 });
 z$.isValid.should.equal('false');
 z$.score.should.equal(1);
-return z$;
 ```
 
 <a name="unionvalidator"></a>
@@ -603,11 +588,11 @@ return z$;
 should be recognized.
 
 ```js
-return function(){
+(function(){
   return createValidator(union(record({
     a: String
   }), String));
-}.should.not['throw']();
+}).should.not['throw']();
 ```
 
 <a name="unionvalidator-constructor"></a>
@@ -618,9 +603,9 @@ should only accept validators.
 (function(){
   return union(String, Number);
 }).should.not['throw']();
-return function(){
+(function(){
   return union(String, null);
-}.should['throw']();
+}).should['throw']();
 ```
 
 <a name="unionvalidator-isvalid"></a>
@@ -629,7 +614,7 @@ should validate all variants.
 
 ```js
 validator.isValid('hello').should.equal(true);
-return validator.isValid({
+validator.isValid({
   kind: 'leaf'
 }).should.equal(true);
 ```
@@ -637,7 +622,7 @@ return validator.isValid({
 should only validate variants.
 
 ```js
-return validator.isValid(0).should.equal(false);
+validator.isValid(0).should.equal(false);
 ```
 
 <a name="unionvalidator-getvalidationresult"></a>
@@ -653,7 +638,6 @@ y$ = validator.getValidationResult({
   value: 12
 });
 y$.isValid.should.equal('true');
-return y$;
 ```
 
 should only validate variants.
@@ -662,7 +646,6 @@ should only validate variants.
 var x$;
 x$ = validator.getValidationResult(0);
 x$.isValid.should.equal('false');
-return x$;
 ```
 
 should return the best matched score.
@@ -677,7 +660,6 @@ z$ = validator.getValidationResult({
   kind: 'leaf'
 });
 z$.score.should.equal(2);
-return z$;
 ```
 
 <a name="anyvalidator"></a>
@@ -685,9 +667,9 @@ return z$;
 should be recognized.
 
 ```js
-return function(){
+(function(){
   return createValidator(any);
-}.should.not['throw']();
+}).should.not['throw']();
 ```
 
 <a name="anyvalidator-isvalid"></a>
@@ -709,15 +691,14 @@ function fn$(){}
 should validate any value.
 
 ```js
-var validator, i$, ref$, len$, value, results$ = [];
+var validator, i$, ref$, len$, value;
 validator = createValidator(any);
 for (i$ = 0, len$ = (ref$ = [null, 1, 's', {}, [], new Date(), fn$]).length; i$ < len$; ++i$) {
   value = ref$[i$];
-  results$.push(validator.getValidationResult(value).should.be.like({
+  validator.getValidationResult(value).should.be.like({
     isValid: 'true'
-  }));
+  });
 }
-return results$;
 function fn$(){}
 ```
 
@@ -726,9 +707,9 @@ function fn$(){}
 should be recognized.
 
 ```js
-return function(){
+(function(){
   return createValidator(Boolean);
-}.should.not['throw']();
+}).should.not['throw']();
 ```
 
 <a name="booleanvalidator-isvalid"></a>
@@ -736,13 +717,13 @@ return function(){
 should validate booleans.
 
 ```js
-return createValidator(Boolean).isValid(true).should.equal(true);
+createValidator(Boolean).isValid(true).should.equal(true);
 ```
 
 should only validate booleans.
 
 ```js
-return createValidator(Boolean).isValid('hello').should.equal(false);
+createValidator(Boolean).isValid('hello').should.equal(false);
 ```
 
 <a name="booleanvalidator-getvalidationresult"></a>
@@ -750,7 +731,7 @@ return createValidator(Boolean).isValid('hello').should.equal(false);
 should validate booleans.
 
 ```js
-return createValidator(Boolean).getValidationResult(false).should.be.like({
+createValidator(Boolean).getValidationResult(false).should.be.like({
   isValid: 'true'
 });
 ```
@@ -762,7 +743,6 @@ var x$;
 x$ = createValidator(Boolean).getValidationResult('hello');
 x$.isValid.should.equal('false');
 x$.score.should.equal(0);
-return x$;
 ```
 
 <a name="nilvalidator"></a>
@@ -770,9 +750,9 @@ return x$;
 should be recognized.
 
 ```js
-return function(){
+(function(){
   return createValidator(nil);
-}.should.not['throw']();
+}).should.not['throw']();
 ```
 
 <a name="nilvalidator-isvalid"></a>
@@ -780,19 +760,19 @@ return function(){
 should validate null.
 
 ```js
-return createValidator(nil).isValid(null).should.equal(true);
+createValidator(nil).isValid(null).should.equal(true);
 ```
 
 should validate undefined.
 
 ```js
-return createValidator(nil).isValid(undefined).should.equal(true);
+createValidator(nil).isValid(undefined).should.equal(true);
 ```
 
 should only validate nil values.
 
 ```js
-return createValidator(nil).isValid('hello').should.equal(false);
+createValidator(nil).isValid('hello').should.equal(false);
 ```
 
 <a name="nilvalidator-getvalidationresult"></a>
@@ -800,7 +780,7 @@ return createValidator(nil).isValid('hello').should.equal(false);
 should validate null.
 
 ```js
-return createValidator(nil).getValidationResult(null).should.be.like({
+createValidator(nil).getValidationResult(null).should.be.like({
   isValid: 'true'
 });
 ```
@@ -808,7 +788,7 @@ return createValidator(nil).getValidationResult(null).should.be.like({
 should validate undefined.
 
 ```js
-return createValidator(nil).getValidationResult(undefined).should.be.like({
+createValidator(nil).getValidationResult(undefined).should.be.like({
   isValid: 'true'
 });
 ```
@@ -820,7 +800,6 @@ var x$;
 x$ = createValidator(nil).getValidationResult('hello');
 x$.isValid.should.equal('false');
 x$.score.should.equal(0);
-return x$;
 ```
 
 <a name="numbervalidator"></a>
@@ -828,9 +807,9 @@ return x$;
 should be recognized.
 
 ```js
-return function(){
+(function(){
   return createValidator(Number);
-}.should.not['throw']();
+}).should.not['throw']();
 ```
 
 <a name="numbervalidator-isvalid"></a>
@@ -838,13 +817,13 @@ return function(){
 should validate numbers.
 
 ```js
-return createValidator(Number).isValid(12).should.equal(true);
+createValidator(Number).isValid(12).should.equal(true);
 ```
 
 should only validate numbers.
 
 ```js
-return createValidator(Number).isValid('hello').should.equal(false);
+createValidator(Number).isValid('hello').should.equal(false);
 ```
 
 <a name="numbervalidator-getvalidationresult"></a>
@@ -852,7 +831,7 @@ return createValidator(Number).isValid('hello').should.equal(false);
 should validate numbers.
 
 ```js
-return createValidator(Number).getValidationResult(12).should.be.like({
+createValidator(Number).getValidationResult(12).should.be.like({
   isValid: 'true'
 });
 ```
@@ -864,7 +843,6 @@ var x$;
 x$ = createValidator(Number).getValidationResult('hello');
 x$.isValid.should.equal('false');
 x$.score.should.equal(0);
-return x$;
 ```
 
 <a name="stringvalidator"></a>
@@ -872,9 +850,9 @@ return x$;
 should be recognized.
 
 ```js
-return function(){
+(function(){
   return createValidator(String);
-}.should.not['throw']();
+}).should.not['throw']();
 ```
 
 <a name="stringvalidator-isvalid"></a>
@@ -882,13 +860,13 @@ return function(){
 should validate strings.
 
 ```js
-return createValidator(String).isValid('hello').should.equal(true);
+createValidator(String).isValid('hello').should.equal(true);
 ```
 
 should only validate strings.
 
 ```js
-return createValidator(String).isValid(12).should.equal(false);
+createValidator(String).isValid(12).should.equal(false);
 ```
 
 <a name="stringvalidator-getvalidationresult"></a>
@@ -896,7 +874,7 @@ return createValidator(String).isValid(12).should.equal(false);
 should validate strings.
 
 ```js
-return createValidator(String).getValidationResult('hello').should.be.like({
+createValidator(String).getValidationResult('hello').should.be.like({
   isValid: 'true'
 });
 ```
@@ -908,6 +886,5 @@ var x$;
 x$ = createValidator(String).getValidationResult(12);
 x$.isValid.should.equal('false');
 x$.score.should.equal(0);
-return x$;
 ```
 
