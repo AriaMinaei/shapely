@@ -9,7 +9,8 @@
     "test": "mocha \"test/**/*.ls\"",
     "test:watch": "mocha \"test/**/*.ls\" --watch",
     "dev": "webpack --watch --colors --progress",
-    "prepublish": "webpack --colors --progress"
+    "prepublish": "webpack --colors --progress",
+    "doc": "mocha \"test/**/*.ls\" --reporter markdown > api.md"
   },
   "devDependencies": {
     "babel-core": "^6.1.4",
