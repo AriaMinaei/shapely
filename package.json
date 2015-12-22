@@ -1,7 +1,7 @@
 {
   "name": "shapely",
   "version": "0.2.1",
-  "description": "Runtime shape validation with tagged unions",
+  "description": "Runtime type checker with tagged unions",
   "author": "Aria Minaei",
   "license": "MIT",
   "main": "lib/shapely.js",
@@ -29,10 +29,10 @@
     "sinon": "^1.12.2",
     "sinon-chai": "^2.6.0",
     "webpack": "^1.12.4",
-    "webpack-error-notification": "^0.1.4"
+    "webpack-error-notification": "^0.1.4",
+    "livescript": "^1.4.0"
   },
   "dependencies": {
-    "livescript": "^1.4.0",
     "lodash": "^3.10.1",
     "ramda": "^0.18.0"
   }
