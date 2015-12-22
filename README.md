@@ -149,7 +149,7 @@ isValid(Number, 10); // returns true
 isValid(Boolean, false) // returns true
 ```
 
-### Strict String Equality
+### Strict string equality
 
 ```javascript
 import {isValid} from 'shapely';
@@ -158,7 +158,7 @@ isValid('a', 'a'); // returns true since they are equal
 isValid('a', 'b'); // returns false
 ```
 
-### Any
+### Matching any value
 ```javascript
 import {isValid, any} from 'shapely';
 
@@ -272,7 +272,7 @@ isValid(nil, 'a'); // returns false
 
 ```
 
-### Recursive data types
+### Recursive validators
 ```javascript
 import {record, union, deferred, nil, any} from 'shapely';
 
