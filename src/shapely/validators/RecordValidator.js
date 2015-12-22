@@ -58,7 +58,7 @@ export default class RecordValidator {
 		for (let key of Object.keys(this.shape)) {
 			let validator = this.shape[key];
 			let result = validator.getValidationResult(val[key]);
-			if (result.isValid == 'false') {
+			if (result.isValid === 'false') {
 				return {
 					isValid: 'false',
 					message: `Error validating prop ${key}:\n ${result.message}`,
