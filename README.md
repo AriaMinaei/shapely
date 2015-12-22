@@ -1,6 +1,5 @@
-[![Build Status](https://secure.travis-ci.org/AriaMinaei/shapely.svg?branch=master)](https://travis-ci.org/AriaMinaei/shapely)
-
 # Shapely
+[![Build Status](https://secure.travis-ci.org/AriaMinaei/shapely.svg?branch=master)](https://travis-ci.org/AriaMinaei/shapely)
 
 Runtime javascript type checker with support for records and tagged unions.
 
