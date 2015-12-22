@@ -1,4 +1,4 @@
---compilers ls:LiveScript
+--compilers ls:livescript
 --recursive
 --ui bdd
 --timeout 20000
