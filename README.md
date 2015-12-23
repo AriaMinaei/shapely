@@ -1,15 +1,13 @@
 # Shapely
 [![Build Status](https://secure.travis-ci.org/AriaMinaei/shapely.svg?branch=master)](https://travis-ci.org/AriaMinaei/shapely)
 
-Runtime javascript type checker with support for records and tagged unions.
+A runtime type checker for javascript with support for records and tagged unions.
 
 ## Use cases
 
-I use Shapely in projects where:
-* I *can't* use static type checkers.
-* I *can* use static type checkers, but I still need to validate the shape of some data in runtime, because:
-  - I have a client/server setup and I need to ensure that the server API calls and their responses follow predefined protocols.
-  - I have a set of functions (possibly written by different team members) and I need to ensure that all of their return values follow a certain protocol.
+Shapely is useful in projects where:
+* You *can't* use static type checkers.
+* You *can* use static type checkers, but you still need to validate the shape of data in runtime to make sure that they adhere to a certain protocol, forexample in client/server communication (unless you're using GraphQL).
 
 ## Example
 
@@ -39,7 +37,6 @@ export const ServerResponse = union(
     kind: 'Success',
     payload: any
   }),
-
   record({
     kind: 'Failure',
     message: String
@@ -113,6 +110,8 @@ export function request(fnName, args) {
 
 ## Usage
 
+With shapely, you first define a validator, and then you verify the shape of some value using that validator.
+
 ### validate()
 
 Takes a validator and a value:
@@ -123,8 +122,9 @@ Example:
 ```javascript
 import {validate} from 'shapely';
 
-validate(String, 'a'); // returns 'a'
-validate(String, 10); // throws
+// Here, String is automatically recognized as a validator
+validate(String, 'a'); // returns 'a', since 'a' is a String
+validate(String, 10); // throws, since 10 is not a String
 ```
 
 ### isValid()
@@ -141,21 +141,14 @@ isValid(String, 10); // returns false
 
 ### Strings, Numbers, Booleans
 
+These three are automatically recognized as validators
+
 ```javascript
 import {isValid} from 'shapely';
 
 isValid(String, 'a'); // returns true
 isValid(Number, 10); // returns true
 isValid(Boolean, false) // returns true
-```
-
-### Strict string equality
-
-```javascript
-import {isValid} from 'shapely';
-
-isValid('a', 'a'); // returns true since they are equal
-isValid('a', 'b'); // returns false
 ```
 
 ### Matching any value
@@ -167,7 +160,7 @@ isValid(any, ...); // returns true for any value, including null
 
 ### Unions
 
-Unions are just a collection of other validators:
+A Union is just a collection of other validators:
 ```javascript
 import {isValid, union} from 'shapely';
 
@@ -180,8 +173,7 @@ isValid(StringOrNumber, {}); // returns false
 
 ### Records
 
-Records check if an object has certain keys and whether those keys match their respective validators.
-
+Records check if an object has certain keys and whether those keys match their respective validators:
 ```javascript
 import {isValid, record} from 'shapely';
 
@@ -191,20 +183,37 @@ const LaunchVehicle = record({
 });
 
 isValid(LaunchVehicle, {model: 'Falcon 9', year: 2010}); // returns true
-isValid(LaunchVehicle, {model: 'Falcon 9', year: 2010, extras: 'whatever'}); // returns true, as only the expected keys are checked
-isValid(LaunchVehicle, {model: 'Falcon 9', year: false}); // returns false
+isValid(LaunchVehicle, {model: 'Falcon 9', year: 2010, extras: 'whatever'}); // returns true, since only the expected keys are checked
+isValid(LaunchVehicle, {model: 'Falcon 9', year: 'some string'}); // returns false
+```
+
+### Equality
+
+Strings and numbers can be used as validators to check if a value is strictly equal to them. We'll use this later to construct tagged unions.
+
+```javascript
+import {isValid} from 'shapely';
+
+isValid('a', 'a'); // returns true since they are equal
+isValid('a', 'b'); // returns false
+isValid(10, 10); // returns true
+isValid(10, 11); // returns false
+
+// note that like all other validators, we can use `validate()`
+// instead of `isValid()` to get a nice error:
+validate('a', 'b'); // throws Error Expected 'b' to equal 'a'
 ```
 
 ### Tagged Unions
 
-Tagged unions are just unions of tagged records:
+Tagged unions are just unions of records:
 
 ```javascript
 import {union, record, any} from 'shapely';
 
 const Response = union(
   record({
-    kind: 'Success',
+    kind: 'Success', // we're using strict equality here
     payload: any
   }),
 
@@ -269,13 +278,32 @@ import {isValid, nil} from 'shapely';
 isValid(nil, null); // returns true
 isValid(nil, undefined); // returns true
 isValid(nil, 'a'); // returns false
-
 ```
 
-### Recursive validators
+### Deferred validators and Recursive structures
+
+If validator `A` requires validator `B`, but `B` is not yet defined at the time `A` is being defined, you can use `deferred()` to defer the resolution of `B` to a later time:
+```javascript
+import {deferred, record} from 'shapely';
+
+const Human = record({
+  name: deferred(=> HumanName), // HumanName is not defined at the moment
+  age: Number
+});
+
+const HumanName = String;
+
+isValid(Human, {name: 'Anish', age: 50}); // returns true
+```
+
+We can use `deferred()` to construct recursive types too:
+
 ```javascript
 import {record, union, deferred, nil, any} from 'shapely';
 
+// This is the shape of a BinaryTree. The equivalent flow type would look
+// like this:
+// type BinaryTree = null | {val: mixed, left: BinaryTree, right: BinaryTree}
 const BinaryTree = union(
   nil,
   record({
@@ -352,7 +380,7 @@ validate(Tuple, [1]); // throws Error: val.length is ecpected to be 2. 1 given
 
 ## Development
 
-Shapely is itself written in Flow, but like all flow code, it still compiles if you don't have flow on your system. We use Babel for compilation, Webpack for bundling, and LiveScript for writing the tests.
+Shapely is itself written in Flow, but like all flow code, it still compiles if you don't have flow installed on your system. We use Babel for compilation, Webpack for bundling, and LiveScript for the tests.
 
 To watch the files and recompile:
 ```
