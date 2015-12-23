@@ -3,13 +3,18 @@
 
 A runtime type checker for javascript with support for records and tagged unions.
 
-## Use cases
+## Why runtime type checking?
 
-Shapely is useful in projects where:
-* You can't use static type checkers.
-* You *can* use static type checkers, but you still need to validate the shape of data in runtime to make sure that they adhere to a certain protocol, forexample in client/server communication (unless you're using GraphQL).
+* First, runtime type checking is **not an alternative** for static type checking. You can use them together as they serve different purposes.
+* With technologies like GraphQL, you're already using runtime type checking.
+* Custom runtime type checking libraries (like shapely) should be used in places where the shape of data cannot be known in compile time. Client/server communication is one of those places.
 
-[Read more](#design) about what makes shapely unique.
+## Why shapely?
+
+Shapely is unique in that:
+* It type-checks regular JS values. It doesn't box values – it doesn't introduce a new data structure. That makes it easy to use alongside state management frameworks like Redux. [Read more](#why-unboxed-values) about why I chose unboxed values.
+* It supports tagged unions, similar to that of [flow](http://flowtype.org/docs/union-intersection-types.html).
+* It makes it easy to combine validators to create new, more complex validators.
 
 ## Usage
 
@@ -105,6 +110,18 @@ isValid(10, 11); // returns false
 // note that like all other validators, we can use `validate()`
 // instead of `isValid()` to get a nice error:
 validate('a', 'b'); // throws Error Expected 'b' to equal 'a'
+```
+
+### Enums
+
+Not really enums, but you can combine equality validators in a union, to limit a value to a few predefined constants:
+
+```javascript
+import {union, isValid} from 'shapely';
+
+const Color = union('Red', 'Green', 'Blue');
+isValid(Color, 'Red'); // returns true
+isValid(Color, 'Two'); // returns false
 ```
 
 ### Tagged Unions
@@ -380,8 +397,8 @@ export function request(fnName, args) {
 };
 ```
 
-<a name="design"></a>
-## Why shapely?
+<a name="why-unboxed-values"></a>
+## Why unboxed values?
 
 The main difference between shapely and other projects is that it uses normal, unboxed JS values. shapely@0.1, used to box values inside containers (e.g `joe = new Person({age: 10})` instead of just `joe = {age: 10}`), but in 0.2, I decided to use regular JS values. My reasons for that change were:
 
