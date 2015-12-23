@@ -9,6 +9,8 @@ Shapely is useful in projects where:
 * You can't use static type checkers.
 * You *can* use static type checkers, but you still need to validate the shape of data in runtime to make sure that they adhere to a certain protocol, forexample in client/server communication (unless you're using GraphQL).
 
+[Read more](#design) about what makes shapely unique.
+
 ## Usage
 
 With shapely, you first define a validator, and then you verify the shape of some value using that validator.
@@ -377,6 +379,17 @@ export function request(fnName, args) {
   });
 };
 ```
+
+<a name="design"></a>
+## Why shapely?
+
+The main difference between shapely and other projects is that it uses normal, unboxed JS values. shapely@0.1, used to box values inside containers (e.g `joe = new Person({age: 10})` instead of just `joe = {age: 10}`), but in 0.2, I decided to use regular JS values. My reasons for that change were:
+
+- I use Redux for state management, and my app's store is an immutable.js map. Since immutable.js doesn't understand boxed values, it just stores them as is. That would make part of the app's state, immutable.js-style values, and other parts, shapely values. As the app grew, that just became confusing.
+- Validating an unboxed value is an O(N) operation, while validating a boxed value is an O(1) operation. That's good, but after using the boxed design for two months, I realized that I never needed that O(1) operation in any part of my code. I found that once a value get validated and put inside the store, it never needs to be validated again. Or, if a value is already in the store, you never have to validate it. So, I never used the performance improvement that came with boxed values.
+- There was one place where I *did* use the performance improvement of boxed values, and that was in pattern matching (though pattern matching is a big word for that simple feature I implemented). But I then realized that simple [flow-style type refinements](http://flowtype.org/docs/dynamic-type-tests.html) can do the job too. I mainly used pattern matching for detecting different variants of a union, but now that shapely has tagged unions, I just check for the tag and determine the right variant. That's fast too.
+- With the unboxed design, shapely can work with seamless-immutable values. You can also easily retrofit it to work with immutable.js or mori values.
+- Unboxed values can be used as react props. So too can boxed values, but then you'll have two sets of react components that either support boxed or unboxed values. I realized that most of the components I made needed to support both. That led to an awkward codebase.
 
 ## Development
 
