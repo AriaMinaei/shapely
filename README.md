@@ -6,107 +6,8 @@ A runtime type checker for javascript with support for records and tagged unions
 ## Use cases
 
 Shapely is useful in projects where:
-* You *can't* use static type checkers.
+* You can't use static type checkers.
 * You *can* use static type checkers, but you still need to validate the shape of data in runtime to make sure that they adhere to a certain protocol, forexample in client/server communication (unless you're using GraphQL).
-
-## Example
-
-Here we have a simple client/server setup:
-* The server implements three functions: `getCartItems`, `getItemById`, and `addItemToCart`, and they are written by different team members.
-* Each of these functions is expected to:
-  - Return `{kind: 'Success', payload: any}` when invoked successfully.
-  - Return `{kind: 'Failure', message: String}` when invoked unsuccessfully.
-* We need to validate that each function actually follows this protocol every time it's invoked. We'll validate that both on the server and on the client.
-
-```javascript
-// ServerResponse.js
-
-// This file defines the server's resopnse protocol,
-// and it'll be used both by the server and the client.
-
-import {record, union, any} from 'shapely';
-
-// This is basically a tagged union that defines the two
-// possible shapes of the server's response data. The equivalent
-// flow type would look like this:
-// type ServerResponse =
-//    {kind: 'Success', payload: mixed} |
-//    {kind: 'Failure', message: string}
-export const ServerResponse = union(
-  record({
-    kind: 'Success',
-    payload: any
-  }),
-  record({
-    kind: 'Failure',
-    message: String
-  })
-);
-```
-
-```javascript
-// server.js
-
-// The server imports the three functions, listens for requests from the client,
-// routes each request to the correct function, and then validates the returned value
-// of that function before sending it to the client.
-
-import {ServerResponse} from './ServerResponse';
-import {isValid} from 'shapely';
-
-import {getCartItems} from './fns/getCartItems';
-import {getItemById} from './fns/getItemById';
-import {addItemToCart} from './fns/addItemToCart';
-const fns = {getCartItems, getItemById, addItemToCart};
-
-onRequest((fnName, args, respond) => {
-  var responsePromise;
-  if (fns[fnName]) {
-    responsePromise = fns[fnName](args);
-  } else {
-    responsePromise = Promise.reject({
-      kind: 'Failure',
-      message: `Unkown function ${fnName}`
-    });
-  }
-
-  function handleResponse(responseData) {
-    if (isValid(ServerResponse, responseData)) {
-      respond(responseData);
-    } else {
-      respond({kind: 'Failure', message: 'Internal server error'});
-    }
-  };
-
-  return responsePromise.then(handleResponse, handleResponse);
-});
-```
-
-```javascript
-// client.js
-
-// The client simply sends requests to the server,
-// and returns a promise that either fulfills or rejects,
-// based on the server's response.
-
-import {isValid} from 'shapely';
-import {ServerResponse} from './ServerResponse';
-
-export function request(fnName, args) {
-  return callServer(fnName, args)
-  .then((response) => {
-    if (!isValid(ServerResponse, response)) {
-      return Promise.reject('Invalid server response');
-    }
-
-    if (response.kind === 'Success') {
-      return response.payload;
-    } else {
-      return Promise.reject(response);
-    }
-  });
-};
-```
 
 ## Usage
 
@@ -376,6 +277,105 @@ isValid(Tuple, [1, 2]); // returns true
 isValid(Tuple, [1]); // returns false
 validate(Tuple, [1, 2]); // returns [1, 2]
 validate(Tuple, [1]); // throws Error: val.length is ecpected to be 2. 1 given
+```
+
+## Client/Server usage example
+
+Here we have a simple client/server setup:
+* The server implements three functions: `getCartItems`, `getItemById`, and `addItemToCart`, and they are written by different team members.
+* Each of these functions is expected to:
+  - Return `{kind: 'Success', payload: any}` when invoked successfully.
+  - Return `{kind: 'Failure', message: String}` when invoked unsuccessfully.
+* We need to validate that each function actually follows this protocol every time it's invoked. We'll validate that both on the server and on the client.
+
+```javascript
+// ServerResponse.js
+
+// This file defines the server's resopnse protocol,
+// and it'll be used both by the server and the client.
+
+import {record, union, any} from 'shapely';
+
+// This is basically a tagged union that defines the two
+// possible shapes of the server's response data. The equivalent
+// flow type would look like this:
+// type ServerResponse =
+//    {kind: 'Success', payload: mixed} |
+//    {kind: 'Failure', message: string}
+export const ServerResponse = union(
+  record({
+    kind: 'Success',
+    payload: any
+  }),
+  record({
+    kind: 'Failure',
+    message: String
+  })
+);
+```
+
+```javascript
+// server.js
+
+// The server imports the three functions, listens for requests from the client,
+// routes each request to the correct function, and then validates the returned value
+// of that function before sending it to the client.
+
+import {ServerResponse} from './ServerResponse';
+import {isValid} from 'shapely';
+
+import {getCartItems} from './fns/getCartItems';
+import {getItemById} from './fns/getItemById';
+import {addItemToCart} from './fns/addItemToCart';
+const fns = {getCartItems, getItemById, addItemToCart};
+
+onRequest((fnName, args, respond) => {
+  var responsePromise;
+  if (fns[fnName]) {
+    responsePromise = fns[fnName](args);
+  } else {
+    responsePromise = Promise.reject({
+      kind: 'Failure',
+      message: `Unkown function ${fnName}`
+    });
+  }
+
+  function handleResponse(responseData) {
+    if (isValid(ServerResponse, responseData)) {
+      respond(responseData);
+    } else {
+      respond({kind: 'Failure', message: 'Internal server error'});
+    }
+  };
+
+  return responsePromise.then(handleResponse, handleResponse);
+});
+```
+
+```javascript
+// client.js
+
+// The client simply sends requests to the server,
+// and returns a promise that either fulfills or rejects,
+// based on the server's response.
+
+import {isValid} from 'shapely';
+import {ServerResponse} from './ServerResponse';
+
+export function request(fnName, args) {
+  return callServer(fnName, args)
+  .then((response) => {
+    if (!isValid(ServerResponse, response)) {
+      return Promise.reject('Invalid server response');
+    }
+
+    if (response.kind === 'Success') {
+      return response.payload;
+    } else {
+      return Promise.reject(response);
+    }
+  });
+};
 ```
 
 ## Development
