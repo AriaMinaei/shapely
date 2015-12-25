@@ -3,5 +3,5 @@
 import OptionalValidator from '../validators/OptionalValidator';
 
 export default function optional(desc: mixed): OptionalValidator {
-	return new OptionalValidator(desc);
+  return new OptionalValidator(desc);
 }

@@ -1,5 +1,5 @@
 // @flow
 
 export type ValidationResult =
-	{isValid: 'true'} |
-	{isValid: 'false', message: string, score: number}
+  {isValid: 'true'} |
+  {isValid: 'false', message: string, score: number}
