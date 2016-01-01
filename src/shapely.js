@@ -1,13 +1,13 @@
 // @flow
 
-export const union = require('./shapely/interfaceFunctions/union').default;
-export const any = require('./shapely/interfaceFunctions/any').default;
-export const nil = require('./shapely/interfaceFunctions/nil').default;
-export const mapOf = require('./shapely/interfaceFunctions/mapOf').default;
-export const arrayOf = require('./shapely/interfaceFunctions/arrayOf').default;
-export const record = require('./shapely/interfaceFunctions/record').default;
-export const optional = require('./shapely/interfaceFunctions/optional').default;
-export const validate = require('./shapely/interfaceFunctions/validate').default;
-export const deferred = require('./shapely/interfaceFunctions/deferred').default;
-export const createValidator = require('./shapely/createValidator').default;
-export const isValid = require('./shapely/interfaceFunctions/isValid').default;
+export union from './shapely/interfaceFunctions/union';
+export any from './shapely/interfaceFunctions/any';
+export nil from './shapely/interfaceFunctions/nil';
+export mapOf from './shapely/interfaceFunctions/mapOf';
+export arrayOf from './shapely/interfaceFunctions/arrayOf';
+export record from './shapely/interfaceFunctions/record';
+export optional from './shapely/interfaceFunctions/optional';
+export validate from './shapely/interfaceFunctions/validate';
+export deferred from './shapely/interfaceFunctions/deferred';
+export createValidator from './shapely/createValidator';
+export isValid from './shapely/interfaceFunctions/isValid';
