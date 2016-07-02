@@ -266,12 +266,12 @@ type ValidationResult =
 
 Example:
 ```javascript
-import {isValid} from 'shapely';
+import {isValid, validate} from 'shapely';
 
 const Tuple = {
   isValid(val) {
     return Array.isArray(val) && val.length === 2;
-  }
+  },
 
   getValidationResult(val) {
     if (!Array.isArray(val)) {
@@ -280,12 +280,12 @@ const Tuple = {
         message: `Array expected, ${typeof val} given.`,
         score: 0 // 0 means a complete type mismatch
       };
-    } else if (val.lenth === 2) {
+    } else if (val.length === 2) {
       return {isValid: 'true'};
     } else {
       return {
         isValid: 'false',
-        message: `A tuple 2 two elements. ${val.length} given`,
+        message: `A tuple of 2 elements expected. ${val.length} given`,
         score: 1 // 1 means the general type matches, but the details don't.
       };
     }
@@ -295,7 +295,7 @@ const Tuple = {
 isValid(Tuple, [1, 2]); // returns true
 isValid(Tuple, [1]); // returns false
 validate(Tuple, [1, 2]); // returns [1, 2]
-validate(Tuple, [1]); // throws Error: val.length is ecpected to be 2. 1 given
+validate(Tuple, [1]); // throws Error: A tuple of 2 elements expected. 1 given
 ```
 
 ## Client/Server usage example
